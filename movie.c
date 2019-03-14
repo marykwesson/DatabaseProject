@@ -19,5 +19,8 @@ void printMovie(Movie *movie){
     printf("ID: %s\nType: %s\nTitle: %s\nYear: %s\nRuntime: %s\nGenres: %s\n", movie->titleId, movie->type, movie->primaryTitle, movie->year, movie->runtime, movie->genres);
 }
 
+void printMovieSingleLine(Movie *movie){
+    printf("%s\t%s\t%s\t%s\t%s\t%s", movie->titleId, movie->type, movie->primaryTitle, movie->year, movie->runtime, movie->genres);
+}
 
 

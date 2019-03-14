@@ -22,3 +22,4 @@ typedef struct Movie{
 extern Movie* newMovie(char *titleId, char *type, char *primaryTitle, char *year, char *runtime, char *genres);
 
 extern void printMovie(Movie *movie);
+extern void printMovieSingleLine(Movie *movie);
