@@ -5,7 +5,7 @@
 #include "movie.h"
 
 Movie *newMovie(char *titleId, char *type, char *primaryTitle, char *year, char *runtime, char *genres) {
-    struct Movie* movie = (struct Movie*)malloc(sizeof(struct Movie));
+    Movie* movie = (struct Movie*)malloc(sizeof(struct Movie));
     movie->titleId = titleId;
     movie->type = type;
     movie->primaryTitle = primaryTitle;
@@ -13,6 +13,17 @@ Movie *newMovie(char *titleId, char *type, char *primaryTitle, char *year, char 
     movie->runtime = runtime;
     movie->genres = genres;
     return(movie);
+}
+
+Movie *writeMovie(Movie *newMovie, Movie *oldMovie){
+    //Movie* movie = (struct Movie*)malloc(sizeof(struct Movie));
+    newMovie->titleId = oldMovie->titleId;
+    newMovie->type = oldMovie->type;
+    newMovie->primaryTitle = oldMovie->primaryTitle;
+    newMovie->year = oldMovie->year;
+    newMovie->runtime = oldMovie->runtime;
+    newMovie->genres = oldMovie->genres;
+    return(newMovie);
 }
 
 void printMovie(Movie *movie){

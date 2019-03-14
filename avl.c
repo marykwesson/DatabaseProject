@@ -6,19 +6,6 @@
  */
 
 #include "avl.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include "string.h"
-
-struct Node{
-    char *title;
-    int titleID;
-    struct Node *right;
-    struct Node *left;
-    int height;
-};
 
 char *stringCompare(char *a, char *b){
     if (strcmp(a,b) < 0){
@@ -36,53 +23,51 @@ int height(struct Node *n){
     }
 }
 
-struct Node* newNode(char *title, int titleID){
-    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-    node->title = title;
-    node->titleID = titleID;
+Node* newNode(char* title, int id){
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->key = strdup(title);
+    node->id = id;
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
     return(node);
 }
 
-struct Node* insert(struct Node* node, char *title, int titleID){
+Node* insert(Node* node, char *title, int id){
     if (node == NULL){
-        return newNode(title, titleID);
+        return newNode(title, id);
     }
 
-    if (strcmp(title,node->title) < 0){
-        node->left = insert(node->left, title, titleID);
-    }else if (strcmp(title,node->title) > 0){
-        node->right = insert(node->right, title, titleID);
+    if (strcmp(title,node->key) < 0){
+        node->left = insert(node->left, title, id);
+    }else if (strcmp(title,node->key) > 0){
+        node->right = insert(node->right, title, id);
     }
 
     return node;
 }
 
-void printInorder(struct Node* node) {
+
+Node* searchTree(Node* root, char* title){
+    if (root == NULL || strcmp(title,root->key) == 0){
+        return root;
+    }
+    if (strcmp(title,root->key) > 0){
+        return searchTree(root->right, title);
+    }else if (strcmp(title,root->key) < 0){
+        return searchTree(root->left, title);
+    }
+}
+
+void printInorder(Node* node) {
     if (node == NULL) {
         return;
     }
     printInorder(node->left);
-    printf("%s %d\n", node->title, node->titleID);
+    printf("%s\t\t\t%d\n", node->key, node->id);
     printInorder(node->right);
 }
 
-int main(){
-    struct Node *root = NULL;
-    char *str = "hannah!";
-    root = insert(root, "elephant", 5);
-    insert(root, "cat", 9);
-    insert(root, "balloon", 8);
-    insert(root, "dinosaur", 6);
-    insert(root, "goat", 3);
-    insert(root, "fox", 4);
-    insert(root, "hannah", 14);
-    insert(root, str, 15);
-    insert(root, "dummy", 16);
-
-    printInorder(root);
-    return 0;
-
+void printNode(Node *node){
+    printf("%s\t\t\t%d\n", node->key, node->id);
 }
