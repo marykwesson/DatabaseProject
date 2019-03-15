@@ -150,23 +150,62 @@ Node *insert(Node *node, char *title, int id){
     return node;
 }
 
-Node *searchResults(Node *root, char *title, int id, int count) {
-    Node *result = NULL;
-    if(searchTree(root, title) != NULL){
-        if (count == 0){
-            result = insert(result, title, id);
-            count++;
-        }else{
-            insert(result, title, id);
+Node *searchResults(Node *root, char *title, int id, Node *results) {
+    Node *searchTerm = searchTree(root, title);
+    if (searchTerm != NULL) {
+        if (results == NULL) {
+            results = insert(results, searchTerm->key, searchTerm->id);
+        } else {
+            insert(results, searchTerm->key, searchTerm->id);
         }
-        searchResults(root->right, title, id, count);
     }
-    return result;
+    if (iterativeSearch(searchTerm->left, title) == true && iterativeSearch(searchTerm->right, title) == true) {
+        results = searchResults(searchTerm->left, title, id, results);
+        return searchResults(searchTerm->right, title, id, results);
+    } else if (iterativeSearch(searchTerm->left, title) == true) {
+        return searchResults(searchTerm->left, title, id, results);
+    } else if (iterativeSearch(searchTerm->right, title) == true) {
+        return searchResults(searchTerm->right, title, id, results);
+    }
+    return results;
 }
 
+bool iterativeSearch(Node *root, char *title){
+    if (root == NULL){
+        return false;
+    }
+    if (!stringContains(root->key, title)){
+        return true;
+    }
+    if (strcmp(title,root->key) > 0){
+        return iterativeSearch(root->right, title);
+    }else if (strcmp(title,root->key) < 0) {
+        return iterativeSearch(root->left, title);
+    }
+//    while (root != NULL){
+//        if (!stringContains(root->key, title)){
+//            return true;
+//        }
+//        // pass right subtree as new tree
+//        else if (strcmp(title,root->key) > 0)
+//            root = root->right;
+//
+//            // pass left subtree as new tree
+//        else if (strcmp(title,root->key) < 0)
+//            root = root->left;
+//    }
+//    return false;
+}
 
 Node* searchTree(Node* root, char* title){
-    if (root == NULL || !stringContains(root->key, title)){
+//    if (root == NULL || !stringContains(root->key, title)){
+//        return root;
+//    }
+    if (root == NULL){
+        return NULL;
+    }
+    if (!stringContains(root->key, title)){
+        //printf("%s\t%d\n", root->key, root->id);
         return root;
     }
     if (strcmp(title,root->key) > 0){

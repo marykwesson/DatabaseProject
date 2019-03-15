@@ -22,9 +22,12 @@ bool stringContains(char *nodeTitle, char *searchString);
 extern int height(Node *n);
 extern Node* newNode(char *title, int id);
 extern Node* insert(Node* node, char *title, int id);
-Node *searchResults(Node *root, char *title, int id, int count);
+
+Node *searchResults(Node *root, char *title, int id, Node *results);
+bool iterativeSearch(struct Node *root, char *title);
 extern Node* searchTree(Node* root, char* title);
 //extern Node* searchTree(Node* root, char* title, int id, int count);
 void printPreorder(Node* node);
 void printInorder(Node* node);
 void printNode(Node* node);
+Node *mergeTrees(Node *tree1, Node *tree2);
