@@ -7,7 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-
+#include <time.h>
 #include "string.h"
 
 typedef struct Movie{
@@ -17,9 +17,13 @@ typedef struct Movie{
     char *year;
     char *runtime;
     char *genres;
+    char *date;
 } Movie;
 
-extern Movie* newMovie(char *titleId, char *type, char *primaryTitle, char *year, char *runtime, char *genres);
+extern Movie* newMovie(char *titleId, char *primaryTitle, char *year, char *runtime, char *genres);
 extern Movie *writeMovie(Movie *newMovie, Movie *oldMovie);
 extern void printMovie(Movie *movie);
 extern void printMovieSingleLine(Movie *movie);
+extern void changeType(Movie *movie, char *type);
+extern void changeDate(Movie *movie, char *date);
+extern char *getDate();

@@ -123,16 +123,19 @@ int main(void)
             //free(movie);
         }
     }
-    printf("The inorder traversal is: \n");
-    printInorder(root);
+    //printf("The inorder traversal is: \n");
+    //printInorder(root);
 
-    Node* searchTerm = searchTree(root, "garraf  barcelona");
-    if (searchTerm == NULL){
-        printf("The specified title was not found\n");
-    }
-    else{
-        printf("%s\t\t\t%d\n", searchTerm->key, searchTerm->id);
-    }
+//    Node* searchTerm = searchTree(root, "garraf  barcelona");
+//    if (searchTerm == NULL){
+//        printf("The specified title was not found\n");
+//    }
+//    else{
+//        printf("%s\t\t\t%d\n", searchTerm->key, searchTerm->id);
+//    }
+
+    char *todaysDate = getDate();
+    printf("%s\n", todaysDate);
 
     fclose(fp);
     return 0;
