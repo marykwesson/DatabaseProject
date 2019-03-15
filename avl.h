@@ -12,22 +12,29 @@
 typedef struct Node{
     char *key;
     int id;
+    char *title;
+    char *genres;
+    char *runningTime;
+    char *year;
     struct Node *right;
     struct Node *left;
     int height;
 }Node;
 
-extern char *stringCompare(char *a, char *b);
-bool stringContains(char *nodeTitle, char *searchString);
+extern bool stringContains(char *nodeTitle, char *searchString);
 extern int height(Node *n);
-extern Node* newNode(char *title, int id);
-extern Node* insert(Node* node, char *title, int id);
-
-Node *searchResults(Node *root, char *title, int id, Node *results);
-bool iterativeSearch(struct Node *root, char *title);
+extern int maxHeight(int height1, int height2);
+extern int getBalance(Node *node);
+extern Node* newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year);
+extern Node *rightRotate(Node *y);
+extern Node *leftRotate(Node *x);
+extern Node *RR(Node *root);
+extern Node *LL(Node *root);
+extern Node *LR(Node *root);
+extern Node *RL(Node *root);
+extern Node* insert(Node* node, char *key, int id, char *title, char *genres, char *runningTime, char *year);
+extern Node *searchResults(Node *root, char *title, Node *results);
+extern bool iterativeSearch(Node *root, char *title);
 extern Node* searchTree(Node* root, char* title);
-//extern Node* searchTree(Node* root, char* title, int id, int count);
-void printPreorder(Node* node);
-void printInorder(Node* node);
-void printNode(Node* node);
-Node *mergeTrees(Node *tree1, Node *tree2);
+extern void printInorder(Node* node);
+extern void printPreorder(Node* node);
