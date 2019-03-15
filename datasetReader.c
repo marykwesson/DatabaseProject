@@ -25,7 +25,7 @@ int getIDNumber(char *titleId){
     int j = 9;
     char str[7];
     int IDNumber = 0;
-    for(i = 2, j = 0; i < 9, j < 7; i++, j++){
+    for(i = 2, j = 0; i < 9 && j < 7; i++, j++){
         str[j] = titleId[i];
     }
     IDNumber = atoi(str);
@@ -47,7 +47,8 @@ void articleChecker(char *str){
 }
 
 char *cleanString(char *original){
-    char *new = strdup(original);
+    char *new = malloc(strlen(original) +1);
+    strcpy(new, original);
     articleChecker(new);
     new = strlower(new);
     return new;

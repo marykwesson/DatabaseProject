@@ -52,12 +52,17 @@ int getBalance(Node *node){
   and sets left and right pointers to NULL*/
 Node* newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year){
     Node* node = (Node*)malloc(sizeof(Node));
-    node->key = strdup(key);
+    node->key = malloc(strlen(key) +1);
+    strcpy(node->key, key);
     node->id = id;
-    node->title = strdup(title);
-    node->genres = strdup(genres);
-    node->runningTime = strdup(runningTime);
-    node->year = strdup(year);
+    node->title = malloc(strlen(title) +1);
+    strcpy(node->title, title);
+    node->genres = malloc(strlen(genres) +1);
+    strcpy(node->genres, genres);
+    node->runningTime = malloc(strlen(runningTime) +1);
+    strcpy(node->runningTime, runningTime);
+    node->year = malloc(strlen(year) +1);
+    strcpy(node->year, year);
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
@@ -236,6 +241,7 @@ bool iterativeSearch(Node *root, char *title){
     }else if (strcmp(title,root->key) < 0) {
         return iterativeSearch(root->left, title);
     }
+    return false;
 }
 
 /*A recursive function that searches for an instance of a node
@@ -252,6 +258,7 @@ Node* searchTree(Node* root, char* title){
     }else if (strcmp(title,root->key) < 0){
         return searchTree(root->left, title);
     }
+    return NULL;
 }
 
 //A recursive function to print an inorder traversal of a tree

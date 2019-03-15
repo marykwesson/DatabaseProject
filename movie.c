@@ -37,11 +37,13 @@ void printMovieSingleLine(Movie *movie){
 }
 
 void changeType(Movie *movie, char *newType){
-    movie->type = strdup(newType);
+    movie->type = malloc(strlen(newType) +1);
+    strcpy(movie->type, newType);
 }
 
 void changeDate(Movie *movie, char *newDate){
-    movie->type = strdup(newDate);
+    movie->date = malloc(strlen(newDate) +1);
+    strcpy(movie->date, newDate);
 }
 
 char *getDate(){
