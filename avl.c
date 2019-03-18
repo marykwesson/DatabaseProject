@@ -281,3 +281,22 @@ void printPreorder(Node* node){
     printPreorder(node->right);
 }
 
+int getLeafCount(Node* node)
+{
+    if(node == NULL)
+        return 0;
+    if(node->left == NULL && node->right==NULL)
+        return 1;
+    else
+        return getLeafCount(node->left) + getLeafCount(node->right);
+}
+
+int getCount(Node *root){
+    if(root == NULL){
+        return 0;
+    }
+    else{
+        return 1 + getCount(root->left) + getCount(root->right);
+    }
+}
+
