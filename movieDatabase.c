@@ -17,7 +17,7 @@ void createCase();
 void readCase();
 void deleteCase();
 void updateCase();
-bool searchMovie();
+Movie *searchMovie();
 bool addMovie();
 bool deleteMovie();
 bool updateMovie();
@@ -157,7 +157,10 @@ void updateCase(Node *lookupTable){
             while ((getchar()) != '\n');
             if (userChoice == 'A' || userChoice == 'a'){
                 printf("The User chose add\n");
-                bool searchTest = searchMovie(lookupTable);
+                Movie* searchTest = searchMovie(lookupTable);
+                if (searchTest->primaryTitle != NULL){
+                    printf("You selected\n%s (%s)\n", searchTest->primaryTitle, searchTest->year);
+                }
             }
             else if (userChoice == 'D' || userChoice == 'd'){
                 printf("The User chose delete");
@@ -196,7 +199,9 @@ void deleteCase(){
     }
 }
 
-bool searchMovie(Node *lookupTable){
+Movie *searchMovie(Node *lookupTable){
+    char movieNumber;
+    bool valid = false;
     char movieTitle[100];
     printf("Enter a movie\n");
     scanf(" %s", movieTitle);
@@ -205,7 +210,7 @@ bool searchMovie(Node *lookupTable){
     Node* resultTree = searchResults(lookupTable, searchTerm, NULL);
     if (resultTree == NULL){
         printf("This movie does not exist in the lookup table");
-        return false;
+        return NULL;
     }
     else{
         Movie *searchResults[10];
@@ -217,9 +222,23 @@ bool searchMovie(Node *lookupTable){
         for (int j = 0; j < 10; j++){
             printf("%d. %s (%s)\n", searchResults[j]->titleId, searchResults[j]->primaryTitle, searchResults[j]->year);
         }
-        //display 15 possible movie titles
+        do{
+            printf("Select an index using the numbers above or enter E to return to the start menu\n");
+            scanf(" %c", &movieNumber);
+            if (movieNumber == 'E' || movieNumber == 'e') {
+                valid = true;
+                return newBlankMovie();
+            }
+            else if(movieNumber > '0' && movieNumber < '11'){
+                valid = true;
+                int index = movieNumber - '0';
+                return searchResults[index-1];
+            }
+            else{
+                printf("Invalid Input.");
+            }
+        }while(!valid);
         //ask the user to pick one
         //return that movie
-        return true;
     }
 }

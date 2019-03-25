@@ -1,11 +1,14 @@
 //
 // Created by bamam on 3/13/2019.
 //
+#ifndef AVL_H
+#define AVL_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 #include "movie.h"
 
 typedef struct Node{
@@ -40,3 +43,6 @@ extern void printPreorder(Node* node);
 extern int putInArray(Node *node, Movie *array[], int index);
 extern int getLeafCount(Node* node);
 int getCount(Node *tree);
+//extern bool searchMovie(Node *lookupTable);
+
+#endif

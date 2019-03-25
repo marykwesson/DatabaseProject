@@ -1,6 +1,8 @@
 //
 // Created by bamam on 3/15/2019.
 //
+#ifndef USERLOGS_H
+#define USERLOGS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,3 +16,5 @@ extern void readUserLog(char *filename);
 extern void deleteUserLog(char *username);
 //extern void writeUserLog(Movie* movie);
 extern void printLine(char *title, char *year, char *runtime, char *genres, char *date, char *type);
+
+#endif

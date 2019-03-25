@@ -316,3 +316,31 @@ int getCount(Node *root){
     }
 }
 
+/*bool searchMovie(Node *lookupTable){
+    char movieTitle[100];
+    printf("Enter a movie\n");
+    scanf(" %s", movieTitle);
+    while ((getchar()) != '\n');
+    char *searchTerm = cleanString(movieTitle);
+    Node* resultTree = searchResults(lookupTable, searchTerm, NULL);
+    if (resultTree == NULL){
+        printf("This movie does not exist in the lookup table");
+        return false;
+    }
+    else{
+        Movie *searchResults[10];
+        int index = 0;
+        for (int i = 0; i < 10; i++){
+            searchResults[i] = newBlankMovie();
+        }
+        int temp = putInArray(resultTree, searchResults, index);
+        for (int j = 0; j < 10; j++){
+            printf("%d. %s (%s)\n", searchResults[j]->titleId, searchResults[j]->primaryTitle, searchResults[j]->year);
+        }
+
+        //display 15 possible movie titles
+        //ask the user to pick one
+        //return that movie
+        return true;
+    }
+}*/

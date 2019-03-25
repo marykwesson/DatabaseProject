@@ -1,3 +1,6 @@
+#ifndef DATASETREADER_H
+#define DATASETREADER_H
+
 #include<stdio.h>
 #include <stdlib.h>
 #include<string.h>
@@ -9,3 +12,5 @@ extern int getIDNumber(char *titleId);
 extern void articleChecker(char *str);
 extern char *cleanString(char *original);
 extern Node *fileReader(char *filename);
+
+#endif

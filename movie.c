@@ -67,3 +67,4 @@ char *getDate(){
     //puts(buff);
     return strcpy(currentDate, buff);
 }
+
