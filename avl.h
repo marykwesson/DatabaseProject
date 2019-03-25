@@ -37,5 +37,6 @@ extern bool iterativeSearch(Node *root, char *title);
 extern Node* searchTree(Node* root, char* title);
 extern void printInorder(Node* node);
 extern void printPreorder(Node* node);
+extern int putInArray(Node *node, Movie *array[], int index);
 extern int getLeafCount(Node* node);
 int getCount(Node *tree);

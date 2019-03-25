@@ -4,7 +4,7 @@
 
 #include "movie.h"
 
-Movie *newMovie(char *titleId, char *primaryTitle, char *year, char *runtime, char *genres) {
+Movie *newMovie(int titleId, char *primaryTitle, char *year, char *runtime, char *genres) {
     char *currentDate = getDate();
     Movie* movie = (struct Movie*)malloc(sizeof(struct Movie));
     movie->titleId = titleId;
@@ -16,6 +16,19 @@ Movie *newMovie(char *titleId, char *primaryTitle, char *year, char *runtime, ch
     movie->date = currentDate;
     return(movie);
 }
+
+Movie *newBlankMovie() {
+    Movie* movie = (struct Movie*)malloc(sizeof(struct Movie));
+    movie->titleId = 0;
+    movie->primaryTitle = NULL;
+    movie->year = NULL;
+    movie->runtime = NULL;
+    movie->genres = NULL;
+    movie->type = NULL;
+    movie->date = NULL;
+    return(movie);
+}
+
 
 Movie *writeMovie(Movie *newMovie, Movie *oldMovie){
     //Movie* movie = (struct Movie*)malloc(sizeof(struct Movie));
@@ -29,7 +42,7 @@ Movie *writeMovie(Movie *newMovie, Movie *oldMovie){
 }
 
 void printMovie(Movie *movie){
-    printf("ID: %s\nDate: %s\nTitle: %s\nYear: %s\nRuntime: %s\nGenres: %s\n", movie->titleId, movie->date, movie->primaryTitle, movie->year, movie->runtime, movie->genres);
+    printf("ID: %d\nDate: %s\nTitle: %s\nYear: %s\nRuntime: %s\nGenres: %s\n", movie->titleId, movie->date, movie->primaryTitle, movie->year, movie->runtime, movie->genres);
 }
 
 void printMovieSingleLine(Movie *movie){

@@ -10,7 +10,7 @@
 #include <time.h>
 
 typedef struct Movie{
-    char *titleId;
+    int titleId;
     char *type;
     char *primaryTitle;
     char *year;
@@ -19,8 +19,9 @@ typedef struct Movie{
     char *date;
 } Movie;
 
-extern Movie* newMovie(char *titleId, char *primaryTitle, char *year, char *runtime, char *genres);
+extern Movie* newMovie(int titleId, char *primaryTitle, char *year, char *runtime, char *genres);
 extern Movie *writeMovie(Movie *newMovie, Movie *oldMovie);
+extern Movie *newBlankMovie();
 extern void printMovie(Movie *movie);
 extern void printMovieSingleLine(Movie *movie);
 extern void changeType(Movie *movie, char *type);

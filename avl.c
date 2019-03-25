@@ -281,6 +281,22 @@ void printPreorder(Node* node){
     printPreorder(node->right);
 }
 
+int putInArray(Node *node, Movie *array[], int index){
+    if (node == NULL) {
+        return index;
+    }
+    if (node->left != NULL) {
+        index = putInArray(node->left, array, index);
+    }
+    array[index] = newMovie(index+1, node->title, node->year, node->runningTime, node->genres);
+    index++;
+    if (node->right != NULL) {
+        index = putInArray(node->right, array, index);
+    }
+    return index;
+}
+
+
 int getLeafCount(Node* node)
 {
     if(node == NULL)

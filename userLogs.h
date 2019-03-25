@@ -9,5 +9,8 @@
 //#include "movie.h"
 
 extern void createUserLog(char *username);
+extern int exists(char *fileName);
 extern void readUserLog(char *filename);
-
+extern void deleteUserLog(char *username);
+//extern void writeUserLog(Movie* movie);
+extern void printLine(char *title, char *year, char *runtime, char *genres, char *date, char *type);
