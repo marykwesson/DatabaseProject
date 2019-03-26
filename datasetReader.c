@@ -45,15 +45,15 @@ int getIDNumber(char *titleId){
 }
 
 void articleChecker(char *str){
-    const char *article[7];
-    article[0] = "The ";
-    article[1] = "A ";
-    article[2] = "An ";
-    article[3] = "De ";
-    article[4] = "Los ";
-    article[5] = "La ";
-    article[6] = "El ";;
-    for(int i = 0; i < 7; i++){
+    const char *article[3];
+    article[0] = "the ";
+    article[1] = "a ";
+    article[2] = "an ";
+    //article[3] = "the ";
+    //article[4] = "a ";
+    //article[5] = "an ";
+    //article[6] = "El ";
+    for(int i = 0; i < 3; i++){
         strremove(str, article[i]);
     }
 }
@@ -62,8 +62,8 @@ char *cleanString(char *original){
     //printf("Made it into clean string");
     //char *new = malloc(strlen(original) +1);
     //strcpy(new, original);
-    articleChecker(original);
     strlwr(original);
+    articleChecker(original);
     //new = strlower(new);
     return original;
 }
@@ -79,10 +79,10 @@ void cleanInput(char *original){
 
 Node *fileReader(char *filename){
     FILE *fp;
-    char line[300];
+    char line[400];
     char *titleId = malloc(10);
     char *type = malloc(10);
-    char *title = malloc(25);
+    char *title = malloc(256);
     char *year = malloc(5);
     char *runtime = malloc(4);
     char *genres = malloc(5);
@@ -119,17 +119,19 @@ Node *fileReader(char *filename){
         if (tok) genres = tok;
         genres[strcspn(genres, "\n")] = 0;
 
-        if (strcmp(type, "movie") == 0) {
+        //if (strcmp(type, "movie") == 0) {
+            char* newTitle = malloc(strlen(title));
+            strncpy(newTitle,title, strlen(title));
             key = cleanString(title);
             IDNumber = getIDNumber(titleId);
             if (first == true){
-                root = insert(root, key, IDNumber, title, genres, runtime, year);
+                root = insert(root, key, IDNumber, newTitle, genres, runtime, year);
                 first = false;
             }
             else{
-                insert(root, key, IDNumber, title, genres, runtime, year);
+                insert(root, key, IDNumber, newTitle, genres, runtime, year);
             }
-        }
+        //}
     }
     //free(line);
 

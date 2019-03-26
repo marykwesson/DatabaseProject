@@ -26,7 +26,7 @@ int main(void){
     printf("Loading lookup file...\n");
     //clock_t bt,st;
     //bt = clock();
-    Node *lookupTree = fileReader("data.tsv");
+    Node *lookupTree = fileReader("movie_records");
     //Node *searchTree = fileReader("movie_records");
     //bt = clock() - bt;
     //st = clock();
@@ -73,7 +73,9 @@ int main(void){
     //double search_time = ((double)st)/CLOCKS_PER_SEC; // in seconds
 
     //printf("Loaded %d movies\n", getLeafCount(searchTree));
-    printf("Lookup file was successfully loaded.\n\n");
+
+    //printf("Lookup file was successfully loaded.\n\n");
+    printf("%d movies were loaded\n", getCount(lookupTree));
     //printf("Loaded %d movies\n", getCount(searchTree));
     //printf("took %f seconds to build tree \n", build_time);
     //printf("took %f seconds to search tree \n", search_time);
@@ -249,12 +251,12 @@ Movie *searchMovie(Node *lookupTable) {
     printf("You are searching for: %s\n", searchTerm);
     Node *resultTree = NULL;
     resultTree = searchResults(lookupTable, searchTerm, resultTree);
-    //resultTree = searchResults(lookupTree, searchTerm , resultTree);
+    //resultTree = searchTree(lookupTable, searchTerm);
     //printInorder(resultTree);
     //free(resultTree);
     if (resultTree == NULL) {
-        printf("This movie does not exist in the lookup table");
-        return NULL;
+        printf("This movie does not exist in the lookup table\n");
+        return newBlankMovie();
     } else {
         Movie *resultsArray[10];
         int index = 0;
@@ -293,5 +295,5 @@ Movie *searchMovie(Node *lookupTable) {
             }
         } while (!valid);
     }
-    return NULL;
+    return newBlankMovie();
 }

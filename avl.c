@@ -17,34 +17,34 @@
 }*/
 
 
-bool stringContains(char *nodeTitle, char *searchString){
-    if(strncmp(nodeTitle, searchString, strlen(searchString)) == 0){
+bool stringContains(char *nodeTitle, char *searchString) {
+    if (strncmp(nodeTitle, searchString, strlen(searchString)) == 0) {
         return false;
     }
     return true;
 }
 
 //A utility function to get the height of a node
-int height(Node *n){
+int height(Node *n) {
     if (n == NULL) {
         return 0;
-    }else{
+    } else {
         return n->height;
     }
 }
 
 //A utility function to get the maximum height of two nodes
-int maxHeight(int height1, int height2){
-    return (height1 >= height2)? height1 : height2;
+int maxHeight(int height1, int height2) {
+    return (height1 >= height2) ? height1 : height2;
 }
 
 //A utility function to get the balance factor
-int getBalance(Node *node){
+int getBalance(Node *node) {
     int balance = 0;
-    if(node == NULL){
+    if (node == NULL) {
         return 0;
     }
-    balance = height(node->left)-height(node->right);
+    balance = height(node->left) - height(node->right);
     return balance;
 }
 
@@ -59,109 +59,108 @@ int getBalance(Node *node){
 //}
 /*A function that allocates a new node using the given data
   and sets left and right pointers to NULL*/
-Node* newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year){
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->key = malloc(strlen(key) +1);
+Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year) {
+    Node *node = (Node *) malloc(sizeof(Node));
+    node->key = malloc(strlen(key) + 1);
     strcpy(node->key, key);
     node->id = id;
-    node->title = malloc(strlen(title) +1);
+    node->title = malloc(strlen(title) + 1);
     strcpy(node->title, title);
-    node->genres = malloc(strlen(genres) +1);
+    node->genres = malloc(strlen(genres) + 1);
     strcpy(node->genres, genres);
-    node->runningTime = malloc(strlen(runningTime) +1);
+    node->runningTime = malloc(strlen(runningTime) + 1);
     strcpy(node->runningTime, runningTime);
-    node->year = malloc(strlen(year) +1);
+    node->year = malloc(strlen(year) + 1);
     strcpy(node->year, year);
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
-    return(node);
+    return (node);
 }
 
 //A function that rotates a given node to the right
-Node *rightRotate(Node *y){
+Node *rightRotate(Node *y) {
     Node *x = y->left;
     Node *z = x->right;
 
     x->right = y;
     y->left = z;
 
-    y->height = maxHeight(height(y->left), height(y->right))+1;
-    x->height = maxHeight(height(x->left), height(x->right))+1;
+    y->height = maxHeight(height(y->left), height(y->right)) + 1;
+    x->height = maxHeight(height(x->left), height(x->right)) + 1;
 
     return x;
 }
 
 //A function that rotates a given node to the left
-Node *leftRotate(Node *x){
+Node *leftRotate(Node *x) {
     Node *y = x->right;
     Node *z = y->left;
 
     y->left = x;
     x->right = z;
 
-    x->height = maxHeight(height(x->left), height(x->right))+1;
-    y->height = maxHeight(height(y->left), height(y->right))+1;
+    x->height = maxHeight(height(x->left), height(x->right)) + 1;
+    y->height = maxHeight(height(y->left), height(y->right)) + 1;
 
     return y;
 }
 
 //A function for the right right case
-Node *RR(Node *root){
+Node *RR(Node *root) {
     Node *new = leftRotate(root);
     return new;
 }
 
 //A function for the left left case
-Node *LL(Node *root){
+Node *LL(Node *root) {
     Node *new = rightRotate(root);
     return new;
 }
 
 //A function for the left right case
-Node *LR(Node *root){
+Node *LR(Node *root) {
     root->left = leftRotate(root->left);
     Node *new = rightRotate(root);
     return new;
 }
 
 //A function for the right left case
-Node *RL(Node *root){
+Node *RL(Node *root) {
     root->right = rightRotate(root->right);
     Node *new = rightRotate(root);
     return new;
 }
 
 //A Recursive function to insert a key into a tree and return the new root
-Node* insert(Node* node, char *key, int id, char *title, char *genres, char *runningTime, char *year){
+Node *insert(Node *node, char *key, int id, char *title, char *genres, char *runningTime, char *year) {
     int balance;
 
-    if (node == NULL){
+    if (node == NULL) {
         return newNode(key, id, title, genres, runningTime, year);
     }
 
-    if (strcmp(key,node->key) < 0){
+    if (strcmp(key, node->key) < 0) {
         node->left = insert(node->left, key, id, title, genres, runningTime, year);
-    }else if (strcmp(key,node->key) >= 0){
+    } else if (strcmp(key, node->key) >= 0) {
         node->right = insert(node->right, key, id, title, genres, runningTime, year);
-    }
-    else return node;
+    } else return node;
 
     balance = getBalance(node);
 
-    if (balance > 1 && strcmp(key,node->left->key) < 0){
+    if (balance > 1 && strcmp(key, node->left->key) < 0) {
         return LL(node);
     }
 
-    if (balance < -1 && strcmp(key,node->right->key) > 0){
+    if (balance < -1 && strcmp(key, node->right->key) > 0) {
         return RR(node);
     }
 
-    if (balance > 1 && strcmp(key,node->left->key) > 0){
+    if (balance > 1 && strcmp(key, node->left->key) > 0) {
         return LR(node);
     }
 
-    if (balance < -1 && strcmp(key,node->right->key) < 0){
+    if (balance < -1 && strcmp(key, node->right->key) < 0) {
         return RL(node);
     }
     return node;
@@ -221,16 +220,16 @@ Node *searchResults(Node *root, char *title, Node *results) {
 }
 
 //A boolean function that checks if the search term is present
-bool iterativeSearch(Node *root, char *title){
-    if (root == NULL){
+bool iterativeSearch(Node *root, char *title) {
+    if (root == NULL) {
         return false;
     }
-    if (!stringContains(root->key, title)){
+    if (!stringContains(root->key, title)) {
         return true;
     }
-    if (strcmp(title,root->key) > 0){
+    if (strncmp(title, root->key, strlen(title)) > 0) {
         return iterativeSearch(root->right, title);
-    }else if (strcmp(title,root->key) < 0) {
+    } else if (strncmp(title, root->key, strlen(title)) < 0) {
         return iterativeSearch(root->left, title);
     }
     return false;
@@ -238,11 +237,14 @@ bool iterativeSearch(Node *root, char *title){
 
 /*A recursive function that searches for an instance of a node
   and returns the node if it is present*/
-Node* searchTree(Node* root, char* title){
+/*Node* searchTree(Node* root, char* title){
     if (root == NULL){
-        return NULL;
+        return root;
     }
-    if (!stringContains(root->key, title)){
+    *//*if (!stringContains(root->key, title)){
+        return root;
+    }*//*
+    if (strncmp(title,root->key,strlen(title)) == 0){
         return root;
     }
     if (strcmp(title,root->key) > 0){
@@ -251,10 +253,21 @@ Node* searchTree(Node* root, char* title){
         return searchTree(root->left, title);
     }
     return NULL;
+}*/
+Node *searchTree(Node *root, char *title) {
+    if (root == NULL || !stringContains(root->key, title)) {
+        return root;
+    }
+    if (strncmp(title, root->key, strlen(title)) > 0) {
+        return searchTree(root->right, title);
+    } else if (strncmp(title, root->key, strlen(title)) < 0) {
+        return searchTree(root->left, title);
+    }
+    return NULL;
 }
 
 //A recursive function to print an inorder traversal of a tree
-void printInorder(Node* node) {
+void printInorder(Node *node) {
     if (node == NULL) {
         return;
     }
@@ -264,7 +277,7 @@ void printInorder(Node* node) {
 }
 
 //A recursive function to print an preorder traversal of a tree
-void printPreorder(Node* node){
+void printPreorder(Node *node) {
     if (node == NULL) {
         return;
     }
@@ -273,7 +286,7 @@ void printPreorder(Node* node){
     printPreorder(node->right);
 }
 
-int putInArray(Node *node, Movie *array[], int index){
+int putInArray(Node *node, Movie *array[], int index) {
     if (node == NULL) {
         return index;
     }
@@ -289,21 +302,19 @@ int putInArray(Node *node, Movie *array[], int index){
 }
 
 
-int getLeafCount(Node* node)
-{
-    if(node == NULL)
+int getLeafCount(Node *node) {
+    if (node == NULL)
         return 0;
-    if(node->left == NULL && node->right==NULL)
+    if (node->left == NULL && node->right == NULL)
         return 1;
     else
         return getLeafCount(node->left) + getLeafCount(node->right);
 }
 
-int getCount(Node *root){
-    if(root == NULL){
+int getCount(Node *root) {
+    if (root == NULL) {
         return 0;
-    }
-    else{
+    } else {
         return 1 + getCount(root->left) + getCount(root->right);
     }
 }
