@@ -11,10 +11,22 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
+char *strlwr(char *str)
+{
+    unsigned char *p = (unsigned char *)str;
+
+    while (*p) {
+        *p = tolower((unsigned char)*p);
+        p++;
+    }
+
+    return str;
+}
+
 char *strlower(char *str){
-    unsigned char *tempstr = (unsigned char*)str;
+    char *tempstr = str;
     while(*tempstr){
-        *tempstr = tolower(*tempstr);
+        *tempstr = (char) tolower(*tempstr);
         tempstr++;
     }
     return str;
@@ -47,11 +59,22 @@ void articleChecker(char *str){
 }
 
 char *cleanString(char *original){
-    char *new = malloc(strlen(original) +1);
-    strcpy(new, original);
-    articleChecker(new);
-    new = strlower(new);
-    return new;
+    //printf("Made it into clean string");
+    //char *new = malloc(strlen(original) +1);
+    //strcpy(new, original);
+    articleChecker(original);
+    strlwr(original);
+    //new = strlower(new);
+    return original;
+}
+
+void cleanInput(char *original){
+    //printf("Made it into clean string");
+    //char *new = malloc(strlen(original) +1);
+    //strcpy(new, original);
+    articleChecker(original);
+    strlwr(original);
+    //new = strlower(new);
 }
 
 Node *fileReader(char *filename){
@@ -94,6 +117,7 @@ Node *fileReader(char *filename){
         if (tok) runtime = tok;
         tok = strtok(NULL, delim);      //get GenresToken
         if (tok) genres = tok;
+        genres[strcspn(genres, "\n")] = 0;
 
         if (strcmp(type, "movie") == 0) {
             key = cleanString(title);
@@ -107,6 +131,7 @@ Node *fileReader(char *filename){
             }
         }
     }
+    //free(line);
 
     fclose(fp);
     return root;

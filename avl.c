@@ -8,6 +8,15 @@
 #include "avl.h"
 
 //A utility function to check if the title contains the search string
+/*int stringContains(char *nodeTitle, char *searchString){
+    //printf("Search string is: %s", searchString);
+    if(strncmp(nodeTitle, searchString, strlen(searchString)) == 0){
+        return 0;
+    }
+    return 1;
+}*/
+
+
 bool stringContains(char *nodeTitle, char *searchString){
     if(strncmp(nodeTitle, searchString, strlen(searchString)) == 0){
         return false;
@@ -69,20 +78,6 @@ Node* newNode(char *key, int id, char *title, char *genres, char *runningTime, c
     return(node);
 }
 
-//Node* insert(Node* node, char *title, int id){
-//    if (node == NULL){
-//        return newNode(title, id);
-//    }
-//
-//    if (strcmp(title,node->key) < 0){
-//        node->left = insert(node->left, title, id);
-//    }else if (strcmp(title,node->key) > 0){
-//        node->right = insert(node->right, title, id);
-//    }
-//
-//    return node;
-//}
-
 //A function that rotates a given node to the right
 Node *rightRotate(Node *y){
     Node *x = y->left;
@@ -137,41 +132,6 @@ Node *RL(Node *root){
     return new;
 }
 
-
-//Node *insert(Node *node, char *title, int id){
-//    int balance;
-//
-//    if (node == NULL){
-//        return newNode(title, id);
-//    }
-//
-//    if (strcmp(title,node->key) < 0){
-//        node->left = insert(node->left, title, id);
-//    }else if (strcmp(title,node->key) >= 0){
-//        node->right = insert(node->right, title, id);
-//    }
-//    else return node;
-//
-//    balance = getBalance(node);
-//
-//    if (balance > 1 && strcmp(title,node->left->key) < 0){
-//        return LL(node);
-//    }
-//
-//    if (balance < -1 && strcmp(title,node->right->key) > 0){
-//        return RR(node);
-//    }
-//
-//    if (balance > 1 && strcmp(title,node->left->key) > 0){
-//        return LR(node);
-//    }
-//
-//    if (balance < -1 && strcmp(title,node->right->key) < 0){
-//        return RL(node);
-//    }
-//    return node;
-//}
-
 //A Recursive function to insert a key into a tree and return the new root
 Node* insert(Node* node, char *key, int id, char *title, char *genres, char *runningTime, char *year){
     int balance;
@@ -208,22 +168,54 @@ Node* insert(Node* node, char *key, int id, char *title, char *genres, char *run
 }
 
 //A recursive function to search for every instance of a search term
-Node *searchResults(Node *root, char *title, Node *results) {
+/*Node *searchResults(Node *root, char *title, Node *results) {
     Node *searchTerm = searchTree(root, title);
     if (searchTerm != NULL) {
         if (results == NULL) {
-            results = insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres, searchTerm->runningTime, searchTerm->year);
+            results = insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres,
+                             searchTerm->runningTime, searchTerm->year);
         } else {
-            insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres, searchTerm->runningTime, searchTerm->year);
+            insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres,
+                   searchTerm->runningTime, searchTerm->year);
+        }
+
+        if (iterativeSearch(searchTerm->left, title) == true && iterativeSearch(searchTerm->right, title) == true) {
+            results = searchResults(searchTerm->left, title, results);
+            return searchResults(searchTerm->right, title, results);
+        } else if (iterativeSearch(searchTerm->left, title) == true) {
+            return searchResults(searchTerm->left, title, results);
+        } else if (iterativeSearch(searchTerm->right, title) == true) {
+            return searchResults(searchTerm->right, title, results);
         }
     }
-    if (iterativeSearch(searchTerm->left, title) == true && iterativeSearch(searchTerm->right, title) == true) {
-        results = searchResults(searchTerm->left, title, results);
-        return searchResults(searchTerm->right, title, results);
-    } else if (iterativeSearch(searchTerm->left, title) == true) {
-        return searchResults(searchTerm->left, title, results);
-    } else if (iterativeSearch(searchTerm->right, title) == true) {
-        return searchResults(searchTerm->right, title, results);
+    return results;
+}*/
+
+
+
+
+Node *searchResults(Node *root, char *title, Node *results) {
+    if (getCount(results) < 11) {
+        //printf("Count = %d", count);
+        Node *searchTerm = searchTree(root, title);
+        if (searchTerm != NULL) {
+            if (results == NULL) {
+                results = insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres,
+                                 searchTerm->runningTime, searchTerm->year);
+            } else {
+                insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres,
+                       searchTerm->runningTime, searchTerm->year);
+            }
+
+            if (iterativeSearch(searchTerm->left, title) == true && iterativeSearch(searchTerm->right, title) == true) {
+                results = searchResults(searchTerm->left, title, results);
+                return searchResults(searchTerm->right, title, results);
+            } else if (iterativeSearch(searchTerm->left, title) == true) {
+                return searchResults(searchTerm->left, title, results);
+            } else if (iterativeSearch(searchTerm->right, title) == true) {
+                return searchResults(searchTerm->right, title, results);
+            }
+        }
     }
     return results;
 }
@@ -288,7 +280,7 @@ int putInArray(Node *node, Movie *array[], int index){
     if (node->left != NULL) {
         index = putInArray(node->left, array, index);
     }
-    array[index] = newMovie(index+1, node->title, node->year, node->runningTime, node->genres);
+    array[index] = newMovie(index, node->title, node->year, node->runningTime, node->genres);
     index++;
     if (node->right != NULL) {
         index = putInArray(node->right, array, index);

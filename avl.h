@@ -36,6 +36,7 @@ extern Node *LR(Node *root);
 extern Node *RL(Node *root);
 extern Node* insert(Node* node, char *key, int id, char *title, char *genres, char *runningTime, char *year);
 extern Node *searchResults(Node *root, char *title, Node *results);
+//extern Node *searchResults(Node *root, char *title, Node *results, int count);
 extern bool iterativeSearch(Node *root, char *title);
 extern Node* searchTree(Node* root, char* title);
 extern void printInorder(Node* node);

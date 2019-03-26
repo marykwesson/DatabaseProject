@@ -13,7 +13,10 @@ void createUserLog(char *username){
     if (fp == NULL) {
         printf("Could not open file %s", filename);
     }
-    fprintf(fp, "Im logging something ..\n");
+    //fprintf(fp, "Im logging somethig ..\n");
+    fprintf(fp,"%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+    //fprintf (fp,"%25s%6s%7s%25s%12s%10s\n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+    fclose(fp);
 }
 
 void readUserLog(char *username){
@@ -27,9 +30,9 @@ void readUserLog(char *username){
     if (fp == NULL) {
         printf("Could not open file %s", filename);
     }
-
-    fgets(line, 300, fp);       //gets file header
-    printf("%s\n", line);
+    while(fgets(line, 300, fp) != 0){
+        printf("%s\n", line);
+    }
     fclose(fp);
 }
 
@@ -60,15 +63,28 @@ int exists(char *username) {
     }
 }
 
-/*void writeUserLog(Movie* movie){
-    printf("\nTitle\t\t\tYear\tRuntime\tGenres\tDate\tType\t\n");
-    for (int i = 0; i < 10; i++){
-        if (movie->primaryTitle != NULL){
-            printLine(movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
-        }
+void writeUserLog(Movie* movie, char *username){
+    char * filename = (char *) malloc(1 + strlen(username)+ strlen(".log"));
+    strcpy(filename, username);
+    strcat(filename, ".log");
+    FILE *fp;
+    fp = fopen(filename, "a"); // a+ (create + append) option will allow appending which is useful in a log file
+    if (fp == NULL) {
+        printf("Could not open file %s", filename);
     }
-}*/
+    fprintf(fp,"%-25s %-6s %-7s %-30s %-12s %-9s \n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+    //fprintf (fp,"%25s%6s%7s%25s%12s%10s\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+    fclose(fp);
+    //fprintf(fp,"\t%s\t\t\t%s\t%s\t%s\t\t%s\t%s\t%s\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
 
-void printLine(char *title, char *year, char *runtime, char *genres, char *date, char *type){
-    printf("\t%s\t\t\t%s\t%s\t%s\t\t%s\t%s\t%s\n", title, year, runtime, genres, date, type);
+    //printf("\nTitle\t\t\tYear\tRuntime\tGenres\tDate\tType\t\n");
+    //for (int i = 0; i < 10; i++){
+        //if (movie->primaryTitle != NULL){
+            //printLine(movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+        //}
+    //}
+}
+
+void printLine(Movie *movie){
+    printf("\t%s\t\t\t%s\t%s\t%s\t\t%s\t%s\t\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
 }

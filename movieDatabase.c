@@ -26,16 +26,47 @@ int main(void){
     printf("Loading lookup file...\n");
     //clock_t bt,st;
     //bt = clock();
-    Node *searchTree = fileReader("data.tsv");
+    Node *lookupTree = fileReader("data.tsv");
     //Node *searchTree = fileReader("movie_records");
     //bt = clock() - bt;
     //st = clock();
+    //printInorder(lookupTree);
+    //char line[256];   //1
+    //char *line = (char*)malloc(256);
+    /*char* movieTitle;  //2
+    printf("Enter a movie\n");//3
+    //gets(movieTitle);
+    //fgets(movieTitle, 20, stdin);
+    fgets(line, sizeof(line), stdin);//4
+    char *tok = strtok(line, "\n"); //5     //Gets  TitleId token
+    if (tok) movieTitle = tok;//6
+    //char *movieTitle2;
+    //movieTitle2 = movieTitle;
+    printf("The movie title is %s", movieTitle);//7
+    //free(movieTitle);
+    //char* newMovieTitle = &movieTitle[0];
+    //scanf("%[^\n]%*c", movieTitle);
+    //scanf(" %s", movieTitle);
+    //cleanInput(fgets(movieTitle, sizeof(movieTitle), stdin));
+    //while ((getchar()) != '\n');
+    //char *searchTerm = malloc(strlen(movieTitle + 1));
+    char *searchTerm = cleanString(movieTitle);//8
 
-    //char *searchTerm = cleanString("The Avengers");
-
-    //Node* resultTree = searchResults(searchTree, searchTerm, NULL);
-    //printInorder(resultTree);
-
+    //free(movieTitle);
+    //printf("You entered: %s", searchTerm);
+    //char *searchTerm = cleanString("Big apple");
+    //char* searchTerm2 = searchTerm;
+    Node* resultTree = NULL;//9
+    //resultTree = searchResults(lookupTree, searchTerm, resultTree);
+    //printf("You entered: %s", cleanString(movieTitle));
+    resultTree = searchResults(lookupTree, searchTerm , resultTree);
+    //printf("Temp is: %d", temp);
+    if(resultTree == NULL){//10
+        printf("No match was found\n");//11
+    }//12
+    else {//13
+        printInorder(resultTree);//14
+    }*/
     //st = clock() - st;
 
     //double build_time = ((double)bt)/CLOCKS_PER_SEC; // in seconds
@@ -82,7 +113,7 @@ int main(void){
         else if (userActivity == 'U' || userActivity == 'u'){
             printf("The user chose update\n");
             //bool complete = updateCase();
-            updateCase(searchTree);
+            updateCase(lookupTree);
             /*if (complete == true){
                 //validUserActivity = true;
             }
@@ -102,6 +133,7 @@ int main(void){
             }*/
         }
         else if (userActivity == 'E' || userActivity == 'e'){
+            validUserActivity = false;
             return 0;
         }
         else{
@@ -123,7 +155,7 @@ void createCase(){
         //return false;
     } else {
         createUserLog(userName);
-        printf("%s.log was created", userName);
+        printf("%s.log was created\n", userName);
         //return true;
     }
 }
@@ -160,6 +192,11 @@ void updateCase(Node *lookupTable){
                 Movie* searchTest = searchMovie(lookupTable);
                 if (searchTest->primaryTitle != NULL){
                     printf("You selected\n%s (%s)\n", searchTest->primaryTitle, searchTest->year);
+                    printLine(searchTest);
+                    writeUserLog(searchTest, userName);
+                }
+                else{
+                    finished = true;
                 }
             }
             else if (userChoice == 'D' || userChoice == 'd'){
@@ -199,46 +236,62 @@ void deleteCase(){
     }
 }
 
-Movie *searchMovie(Node *lookupTable){
+Movie *searchMovie(Node *lookupTable) {
+    char line[256];
+    char *movieTitle;
     char movieNumber;
     bool valid = false;
-    char movieTitle[100];
     printf("Enter a movie\n");
-    scanf(" %s", movieTitle);
-    while ((getchar()) != '\n');
+    fgets(line, sizeof(line), stdin);
+    char *tok = strtok(line, "\n");      //Gets  TitleId token
+    if (tok) movieTitle = tok;
     char *searchTerm = cleanString(movieTitle);
-    Node* resultTree = searchResults(lookupTable, searchTerm, NULL);
-    if (resultTree == NULL){
+    printf("You are searching for: %s\n", searchTerm);
+    Node *resultTree = NULL;
+    resultTree = searchResults(lookupTable, searchTerm, resultTree);
+    //resultTree = searchResults(lookupTree, searchTerm , resultTree);
+    //printInorder(resultTree);
+    //free(resultTree);
+    if (resultTree == NULL) {
         printf("This movie does not exist in the lookup table");
         return NULL;
-    }
-    else{
-        Movie *searchResults[10];
+    } else {
+        Movie *resultsArray[10];
         int index = 0;
-        for (int i = 0; i < 10; i++){
-            searchResults[i] = newBlankMovie();
+        for (int i = 0; i < 10; i++) {
+            resultsArray[i] = newBlankMovie();
         }
-        int temp = putInArray(resultTree, searchResults, index);
-        for (int j = 0; j < 10; j++){
-            printf("%d. %s (%s)\n", searchResults[j]->titleId, searchResults[j]->primaryTitle, searchResults[j]->year);
+
+        int temp = 0;
+
+        temp = putInArray(resultTree, resultsArray, index);
+        //temp = putInArray(resultTree, searchResults, index);
+        free(resultTree);
+        //printf("Temp is: %d\n", temp);
+        //printf("index is: %d\n", index);
+
+        if (temp == 0) {
+            printf("Error");
         }
-        do{
+        for (int j = 0; j < 10; j++) {
+            if (resultsArray[j]->primaryTitle != NULL){
+                printf("%d. %s (%s)\n", resultsArray[j]->titleId, resultsArray[j]->primaryTitle, resultsArray[j]->year);
+            }
+        }
+        do {
             printf("Select an index using the numbers above or enter E to return to the start menu\n");
             scanf(" %c", &movieNumber);
             if (movieNumber == 'E' || movieNumber == 'e') {
                 valid = true;
                 return newBlankMovie();
-            }
-            else if(movieNumber > '0' && movieNumber < '11'){
+            } else if (movieNumber >= '0' && movieNumber <= '9') {
                 valid = true;
                 int index = movieNumber - '0';
-                return searchResults[index-1];
-            }
-            else{
+                return resultsArray[index];
+            } else {
                 printf("Invalid Input.");
             }
-        }while(!valid);
-        //ask the user to pick one
-        //return that movie
+        } while (!valid);
     }
+    return NULL;
 }
