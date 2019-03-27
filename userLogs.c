@@ -24,15 +24,22 @@ void readUserLog(char *username){
     strcpy(filename, username);
     strcat(filename, ".log");
     FILE *fp;
-    char line[300];
+    //char line[300];
 
     fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Could not open file %s", filename);
     }
-    while(fgets(line, 300, fp) != 0){
-        printf("%s\n", line);
-    }
+    Movie *userArray[50];
+    Node* userTree = readLogIntoTree(username);
+    //printInorder(userTree);
+    //ReadLogIntoArray(userArray, username);
+    //printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+/*    for(int i = 0; i < 50; i++){
+        if(userArray[i]->primaryTitle != NULL){
+            printLine(userArray[i]);
+        }
+    }*/
     fclose(fp);
 }
 
@@ -72,11 +79,10 @@ void writeUserLog(Movie* movie, char *username){
     if (fp == NULL) {
         printf("Could not open file %s", filename);
     }
-    fprintf(fp,"%-25s %-6s %-7s %-30s %-12s %-9s \n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
-    //fprintf (fp,"%25s%6s%7s%25s%12s%10s\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
-    fclose(fp);
-    //fprintf(fp,"\t%s\t\t\t%s\t%s\t%s\t\t%s\t%s\t%s\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+    //fprintf(fp,"%-25s %-6s %-7s %-30s %-12s %-9s \n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
 
+    fprintf(fp,"%s\t%s\t%s\t%s\t%s\t%s\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+    fclose(fp);
     //printf("\nTitle\t\t\tYear\tRuntime\tGenres\tDate\tType\t\n");
     //for (int i = 0; i < 10; i++){
         //if (movie->primaryTitle != NULL){
@@ -86,5 +92,7 @@ void writeUserLog(Movie* movie, char *username){
 }
 
 void printLine(Movie *movie){
-    printf("\t%s\t\t\t%s\t%s\t%s\t\t%s\t%s\t\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+    printf("%-25s\t%-6s\t%-7s\t%-30s\t%-12s\t%-9s\t\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
 }
+
+

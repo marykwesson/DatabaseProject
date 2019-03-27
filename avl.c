@@ -59,7 +59,7 @@ int getBalance(Node *node) {
 //}
 /*A function that allocates a new node using the given data
   and sets left and right pointers to NULL*/
-Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year) {
+Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year, char *date, char* type) {
     Node *node = (Node *) malloc(sizeof(Node));
     node->key = malloc(strlen(key) + 1);
     strcpy(node->key, key);
@@ -75,6 +75,10 @@ Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, c
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
+    node->date = malloc(strlen(date) + 1);
+    strcpy(node->date, date);
+    node->type = malloc(strlen(type) + 1);
+    strcpy(node->type, type);
     return (node);
 }
 
@@ -133,17 +137,17 @@ Node *RL(Node *root) {
 }
 
 //A Recursive function to insert a key into a tree and return the new root
-Node *insert(Node *node, char *key, int id, char *title, char *genres, char *runningTime, char *year) {
+Node *insert(Node *node, char *key, int id, char *title, char *genres, char *runningTime, char *year, char *date, char* type) {
     int balance;
 
     if (node == NULL) {
-        return newNode(key, id, title, genres, runningTime, year);
+        return newNode(key, id, title, genres, runningTime, year, date, type);
     }
 
     if (strcmp(key, node->key) < 0) {
-        node->left = insert(node->left, key, id, title, genres, runningTime, year);
+        node->left = insert(node->left, key, id, title, genres, runningTime, year, date, type);
     } else if (strcmp(key, node->key) >= 0) {
-        node->right = insert(node->right, key, id, title, genres, runningTime, year);
+        node->right = insert(node->right, key, id, title, genres, runningTime, year, date, type);
     } else return node;
 
     balance = getBalance(node);
@@ -200,10 +204,10 @@ Node *searchResults(Node *root, char *title, Node *results) {
         if (searchTerm != NULL) {
             if (results == NULL) {
                 results = insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres,
-                                 searchTerm->runningTime, searchTerm->year);
+                                 searchTerm->runningTime, searchTerm->year, searchTerm->date, searchTerm->type);
             } else {
                 insert(results, searchTerm->key, searchTerm->id, searchTerm->title, searchTerm->genres,
-                       searchTerm->runningTime, searchTerm->year);
+                       searchTerm->runningTime, searchTerm->year, searchTerm->date, searchTerm->type);
             }
 
             if (iterativeSearch(searchTerm->left, title) == true && iterativeSearch(searchTerm->right, title) == true) {

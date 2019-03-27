@@ -183,8 +183,9 @@ void updateCase(Node *lookupTable){
     printf("Enter the users name (There is a 15 character limit)\n");
     scanf(" %15s", userName);
     while ((getchar()) != '\n');
-    if (exists(userName) == 1) {
 
+    if (exists(userName) == 1) {
+        //Node * userLogTree = readLogIntoTree(userName);
         do{
             printf("Enter A to add movie, D to delete movie, U to update movie, or E to exit to start menu\n");
             scanf(" %c", &userChoice);
@@ -194,7 +195,7 @@ void updateCase(Node *lookupTable){
                 Movie* searchTest = searchMovie(lookupTable);
                 if (searchTest->primaryTitle != NULL){
                     printf("You selected\n%s (%s)\n", searchTest->primaryTitle, searchTest->year);
-                    printLine(searchTest);
+                    //printLine(searchTest);
                     writeUserLog(searchTest, userName);
                 }
                 else{

@@ -21,20 +21,22 @@ typedef struct Node{
     struct Node *right;
     struct Node *left;
     int height;
+    char *date;
+    char *type;
 }Node;
 
 extern bool stringContains(char *nodeTitle, char *searchString);
 extern int height(Node *n);
 extern int maxHeight(int height1, int height2);
 extern int getBalance(Node *node);
-extern Node* newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year);
+extern Node* newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year, char *date, char* type);
 extern Node *rightRotate(Node *y);
 extern Node *leftRotate(Node *x);
 extern Node *RR(Node *root);
 extern Node *LL(Node *root);
 extern Node *LR(Node *root);
 extern Node *RL(Node *root);
-extern Node* insert(Node* node, char *key, int id, char *title, char *genres, char *runningTime, char *year);
+extern Node* insert(Node* node, char *key, int id, char *title, char *genres, char *runningTime, char *year, char *date, char* type);
 extern Node *searchResults(Node *root, char *title, Node *results);
 //extern Node *searchResults(Node *root, char *title, Node *results, int count);
 extern bool iterativeSearch(Node *root, char *title);

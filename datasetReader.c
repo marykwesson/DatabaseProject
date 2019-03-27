@@ -82,10 +82,12 @@ Node *fileReader(char *filename){
     char line[400];
     char *titleId = malloc(10);
     char *type = malloc(10);
+    type = "/0";
     char *title = malloc(256);
     char *year = malloc(5);
     char *runtime = malloc(4);
     char *genres = malloc(5);
+    char *date = "/0";
     char *key;
     bool first = true;
     int IDNumber = 0;
@@ -101,7 +103,7 @@ Node *fileReader(char *filename){
     fgets(line, 300, fp);       //gets file header
     Node *root = NULL;
 
-    while(fgets(line, 300, fp) != 0) {
+    while(fgets(line, 400, fp) != 0) {
         tok = strtok(line, delim);      //Gets  TitleId token
         if (tok) titleId = tok;
         tok = strtok(NULL, delim);      //Gets Type token
@@ -125,16 +127,73 @@ Node *fileReader(char *filename){
             key = cleanString(title);
             IDNumber = getIDNumber(titleId);
             if (first == true){
-                root = insert(root, key, IDNumber, newTitle, genres, runtime, year);
+                root = insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
                 first = false;
             }
             else{
-                insert(root, key, IDNumber, newTitle, genres, runtime, year);
+                insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
             }
         //}
     }
     //free(line);
 
+    fclose(fp);
+    return root;
+}
+
+
+Node *readLogIntoTree(char *username) {
+    char *filename = (char *) malloc(1 + strlen(username) + strlen(".log"));
+    strcpy(filename, username);
+    strcat(filename, ".log");
+    FILE *fp;
+    char *title = malloc(256);
+    char *year = malloc(5);
+    char *runtime = malloc(4);
+    char *genres = malloc(5);
+    char *date = malloc(11);
+    char *type = malloc(8);
+    char *key;
+    bool first = true;
+    int IDNumber = 0;
+    char *titleId = "0";
+    char line[300];
+    char *tok;
+    char delim[] = {"\t"};
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Could not open file %s", filename);
+        return 0;
+    }
+    fgets(line, 300, fp);
+    Node *root = NULL;
+
+    while (fgets(line, 300, fp) != 0) {
+        tok = strtok(line, delim);      //Gets  TitleId token
+        if (tok) title = tok;
+        tok = strtok(NULL, delim);      //Gets Type token
+        if (tok) year = tok;
+        tok = strtok(NULL, delim);      //Gets Title token
+        if (tok) runtime = tok;
+        tok = strtok(NULL, delim);      //Get Year token
+        if (tok) genres = tok;
+        tok = strtok(NULL, delim);      //Consume and ignore
+        if (tok) date = tok;
+        tok = strtok(NULL, delim);      //get GenresToken
+        if (tok) type = tok;
+        type[strcspn(type, "\n")] = 0;
+
+        char *newTitle = malloc(strlen(title));
+        strncpy(newTitle, title, strlen(title));
+        key = cleanString(title);
+        IDNumber = getIDNumber(titleId);
+        if (first) {
+            root = insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
+            first = false;
+        } else {
+            insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
+        }
+    }
     fclose(fp);
     return root;
 }
