@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include "movie.h"
 #include "avl.h"
+#include "datasetReader.h"
 
 extern void createUserLog(char *username);
 extern int exists(char *fileName);

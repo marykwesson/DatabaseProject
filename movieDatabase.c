@@ -185,7 +185,8 @@ void updateCase(Node *lookupTable){
     while ((getchar()) != '\n');
 
     if (exists(userName) == 1) {
-        Node * userLogTree = readLogIntoTree(userName);
+        Node * userLogTree = NULL;
+        readLogIntoTree(userLogTree, userName);
         do{
             printf("Enter A to add movie, D to delete movie, U to update movie, or E to exit to start menu\n");
             scanf(" %c", &userChoice);

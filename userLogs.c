@@ -14,7 +14,7 @@ void createUserLog(char *username){
         printf("Could not open file %s", filename);
     }
     //fprintf(fp, "Im logging somethig ..\n");
-    fprintf(fp,"%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+    fprintf(fp,"%-200s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
     //fprintf (fp,"%25s%6s%7s%25s%12s%10s\n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
     fclose(fp);
 }
@@ -31,9 +31,12 @@ void readUserLog(char *username){
         printf("Could not open file %s", filename);
     }
     //Node *userArray[50];
-    Node* userTree = readLogIntoTree(username);
-    printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
-    printInorder(userTree);
+    Node* userTree = NULL;
+    userTree = readLogIntoTree(userTree, username);
+    //int temp = getCount(userTree);
+    //printf("%d", temp);
+    printf("%-200s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+    printUserLog(userTree);
     //printUserLog(userTree);
     //ReadLogIntoArray(userArray, username);
     //printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
@@ -50,7 +53,7 @@ void printUserLog(Node *node) {
         return;
     }
     printUserLog(node->left);
-    printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", node->title, node->year, node->runningTime, node->genres, node->date, node->type);
+    printf("%-250s %-6s %-7s %-30s %-12s %-9s \n", node->title, node->year, node->runningTime, node->genres, node->date, node->type);
     printUserLog(node->right);
 }
 

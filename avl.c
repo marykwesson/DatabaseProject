@@ -284,9 +284,9 @@ void printFileInorder(FILE *fp, Node *movie) {
     if (movie == NULL) {
         return;
     }
-    printInorder(movie->left);
+    printFileInorder(fp, movie->left);
     fprintf(fp,"%s\t%s\t%s\t%s\t%s\t%s\n", movie->title, movie->year, movie->runningTime, movie->genres, movie->date, movie->type);
-    printInorder(movie->right);
+    printFileInorder(fp, movie->right);
 }
 
 //A recursive function to print an preorder traversal of a tree

@@ -142,7 +142,7 @@ Node *fileReader(char *filename){
 }
 
 
-Node *readLogIntoTree(char *username) {
+Node* readLogIntoTree(Node* userTree, char *username) {
     char *filename = (char *) malloc(1 + strlen(username) + strlen(".log"));
     strcpy(filename, username);
     strcat(filename, ".log");
@@ -163,10 +163,10 @@ Node *readLogIntoTree(char *username) {
     fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Could not open file %s", filename);
-        return 0;
+        //return 0;
     }
     fgets(line, 300, fp);
-    Node *root = NULL;
+    //Node *root = NULL;
 
     while (fgets(line, 300, fp) != 0) {
         tok = strtok(line, delim);      //Gets  TitleId token
@@ -188,13 +188,13 @@ Node *readLogIntoTree(char *username) {
         key = cleanString(title);
         IDNumber = getIDNumber(titleId);
         if (first) {
-            root = insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
+            userTree = insert(userTree, key, IDNumber, newTitle, genres, runtime, year, date, type);
             first = false;
         } else {
-            insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
+            insert(userTree, key, IDNumber, newTitle, genres, runtime, year, date, type);
         }
     }
     fclose(fp);
-    printInorder(root);
-    return root;
+    //printInorder(userTree);
+    return userTree;
 }
