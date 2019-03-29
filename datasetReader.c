@@ -195,5 +195,6 @@ Node *readLogIntoTree(char *username) {
         }
     }
     fclose(fp);
+    printInorder(root);
     return root;
 }

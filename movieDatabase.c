@@ -17,7 +17,7 @@ void createCase();
 void readCase();
 void deleteCase();
 void updateCase();
-Movie *searchMovie();
+Node *searchMovie();
 bool addMovie();
 bool deleteMovie();
 bool updateMovie();
@@ -185,18 +185,26 @@ void updateCase(Node *lookupTable){
     while ((getchar()) != '\n');
 
     if (exists(userName) == 1) {
-        //Node * userLogTree = readLogIntoTree(userName);
+        Node * userLogTree = readLogIntoTree(userName);
         do{
             printf("Enter A to add movie, D to delete movie, U to update movie, or E to exit to start menu\n");
             scanf(" %c", &userChoice);
             while ((getchar()) != '\n');
             if (userChoice == 'A' || userChoice == 'a'){
                 printf("The User chose add\n");
-                Movie* searchTest = searchMovie(lookupTable);
-                if (searchTest->primaryTitle != NULL){
-                    printf("You selected\n%s (%s)\n", searchTest->primaryTitle, searchTest->year);
+                Node* searchTest = searchMovie(lookupTable);
+                if (searchTest != NULL && searchTest->id != 99){
+                    printf("You selected\n%s (%s)\n", searchTest->title, searchTest->year);
+                    if (userLogTree == NULL){
+                        userLogTree = insert(userLogTree, searchTest->key, searchTest->id, 
+                            searchTest->title, searchTest->genres, searchTest->runningTime, searchTest->year, searchTest->date, searchTest->type);
+                    }
+                    else{
+                        insert(userLogTree, searchTest->key, searchTest->id, 
+                            searchTest->title, searchTest->genres, searchTest->runningTime, searchTest->year, searchTest->date, searchTest->type);
+                    }
                     //printLine(searchTest);
-                    writeUserLog(searchTest, userName);
+                    //writeUserLog(searchTest, userName);
                 }
                 else{
                     finished = true;
@@ -217,7 +225,7 @@ void updateCase(Node *lookupTable){
                 printf("Invalid Input");
             }
         }while (!finished);
-
+        writeUserLog(userLogTree, userName);
         //return true;
     } else {
         printf("This username doesn't exists.\n");
@@ -239,7 +247,7 @@ void deleteCase(){
     }
 }
 
-Movie *searchMovie(Node *lookupTable) {
+Node *searchMovie(Node *lookupTable) {
     char line[256];
     char *movieTitle;
     char movieNumber;
@@ -252,33 +260,27 @@ Movie *searchMovie(Node *lookupTable) {
     printf("You are searching for: %s\n", searchTerm);
     Node *resultTree = NULL;
     resultTree = searchResults(lookupTable, searchTerm, resultTree);
-    //resultTree = searchTree(lookupTable, searchTerm);
-    //printInorder(resultTree);
-    //free(resultTree);
     if (resultTree == NULL) {
         printf("This movie does not exist in the lookup table\n");
-        return newBlankMovie();
+        return NULL;
     } else {
-        Movie *resultsArray[10];
+        Node *resultsArray[10];
         int index = 0;
         for (int i = 0; i < 10; i++) {
-            resultsArray[i] = newBlankMovie();
+            resultsArray[i] = newNode("/0", 99, "/0", "/0", "/0", "/0", "/0", "/0");
         }
 
         int temp = 0;
 
         temp = putInArray(resultTree, resultsArray, index);
-        //temp = putInArray(resultTree, searchResults, index);
         free(resultTree);
-        //printf("Temp is: %d\n", temp);
-        //printf("index is: %d\n", index);
 
         if (temp == 0) {
             printf("Error");
         }
         for (int j = 0; j < 10; j++) {
-            if (resultsArray[j]->primaryTitle != NULL){
-                printf("%d. %s (%s)\n", resultsArray[j]->titleId, resultsArray[j]->primaryTitle, resultsArray[j]->year);
+            if (resultsArray[j]->id != 99){
+                printf("%d. %s (%s)\n", resultsArray[j]->id, resultsArray[j]->title, resultsArray[j]->year);
             }
         }
         do {
@@ -286,7 +288,7 @@ Movie *searchMovie(Node *lookupTable) {
             scanf(" %c", &movieNumber);
             if (movieNumber == 'E' || movieNumber == 'e') {
                 valid = true;
-                return newBlankMovie();
+                return NULL;
             } else if (movieNumber >= '0' && movieNumber <= '9') {
                 valid = true;
                 int index = movieNumber - '0';
@@ -296,5 +298,6 @@ Movie *searchMovie(Node *lookupTable) {
             }
         } while (!valid);
     }
-    return newBlankMovie();
+    return NULL;
 }
+

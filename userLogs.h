@@ -15,8 +15,9 @@ extern void createUserLog(char *username);
 extern int exists(char *fileName);
 extern void readUserLog(char *filename);
 extern void deleteUserLog(char *username);
-extern void writeUserLog(Movie* movie, char *username);
-extern void printLine(Movie *movie);
-extern Node* readLogIntoTree(char *username);
+extern void writeUserLog(Node* movie, char *username);
+extern void printLine(Node *movie);
+extern void printUserLog(Node *node);
+//extern Node* readLogIntoTree(char *username);
 
 #endif

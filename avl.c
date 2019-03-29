@@ -280,6 +280,15 @@ void printInorder(Node *node) {
     printInorder(node->right);
 }
 
+void printFileInorder(FILE *fp, Node *movie) {
+    if (movie == NULL) {
+        return;
+    }
+    printInorder(movie->left);
+    fprintf(fp,"%s\t%s\t%s\t%s\t%s\t%s\n", movie->title, movie->year, movie->runningTime, movie->genres, movie->date, movie->type);
+    printInorder(movie->right);
+}
+
 //A recursive function to print an preorder traversal of a tree
 void printPreorder(Node *node) {
     if (node == NULL) {
@@ -290,14 +299,15 @@ void printPreorder(Node *node) {
     printPreorder(node->right);
 }
 
-int putInArray(Node *node, Movie *array[], int index) {
+int putInArray(Node *node, Node *array[], int index) {
     if (node == NULL) {
         return index;
     }
     if (node->left != NULL) {
         index = putInArray(node->left, array, index);
     }
-    array[index] = newMovie(index, node->title, node->year, node->runningTime, node->genres);
+    //array[index] = newMovie(index, node->title, node->year, node->runningTime, node->genres);
+    array[index] = newNode(node->key, index, node->title, node->genres, node->runningTime, node->year, node->date, node->type);
     index++;
     if (node->right != NULL) {
         index = putInArray(node->right, array, index);
@@ -323,31 +333,3 @@ int getCount(Node *root) {
     }
 }
 
-/*bool searchMovie(Node *lookupTable){
-    char movieTitle[100];
-    printf("Enter a movie\n");
-    scanf(" %s", movieTitle);
-    while ((getchar()) != '\n');
-    char *searchTerm = cleanString(movieTitle);
-    Node* resultTree = searchResults(lookupTable, searchTerm, NULL);
-    if (resultTree == NULL){
-        printf("This movie does not exist in the lookup table");
-        return false;
-    }
-    else{
-        Movie *searchResults[10];
-        int index = 0;
-        for (int i = 0; i < 10; i++){
-            searchResults[i] = newBlankMovie();
-        }
-        int temp = putInArray(resultTree, searchResults, index);
-        for (int j = 0; j < 10; j++){
-            printf("%d. %s (%s)\n", searchResults[j]->titleId, searchResults[j]->primaryTitle, searchResults[j]->year);
-        }
-
-        //display 15 possible movie titles
-        //ask the user to pick one
-        //return that movie
-        return true;
-    }
-}*/

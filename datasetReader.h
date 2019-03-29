@@ -13,4 +13,5 @@ extern void articleChecker(char *str);
 extern char *cleanString(char *original);
 extern Node *fileReader(char *filename);
 extern void cleanInput(char *original);
+extern Node *readLogIntoTree(char *username);
 #endif

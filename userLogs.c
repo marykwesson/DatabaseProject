@@ -30,9 +30,11 @@ void readUserLog(char *username){
     if (fp == NULL) {
         printf("Could not open file %s", filename);
     }
-    Movie *userArray[50];
+    //Node *userArray[50];
     Node* userTree = readLogIntoTree(username);
-    //printInorder(userTree);
+    printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+    printInorder(userTree);
+    //printUserLog(userTree);
     //ReadLogIntoArray(userArray, username);
     //printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
 /*    for(int i = 0; i < 50; i++){
@@ -42,6 +44,16 @@ void readUserLog(char *username){
     }*/
     fclose(fp);
 }
+
+void printUserLog(Node *node) {
+    if (node == NULL) {
+        return;
+    }
+    printUserLog(node->left);
+    printf("%-25s %-6s %-7s %-30s %-12s %-9s \n", node->title, node->year, node->runningTime, node->genres, node->date, node->type);
+    printUserLog(node->right);
+}
+
 
 void deleteUserLog(char *username){
     char * filename = (char *) malloc(1 + strlen(username)+ strlen(".log"));
@@ -70,18 +82,19 @@ int exists(char *username) {
     }
 }
 
-void writeUserLog(Movie* movie, char *username){
+void writeUserLog(Node* movie, char *username){
     char * filename = (char *) malloc(1 + strlen(username)+ strlen(".log"));
     strcpy(filename, username);
     strcat(filename, ".log");
     FILE *fp;
-    fp = fopen(filename, "a"); // a+ (create + append) option will allow appending which is useful in a log file
+    fp = fopen(filename, "w"); // a+ (create + append) option will allow appending which is useful in a log file
     if (fp == NULL) {
         printf("Could not open file %s", filename);
     }
+    fprintf(fp,"%s\t%s\t%s\t%s\t%s\t%s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
+    printFileInorder(fp, movie);
     //fprintf(fp,"%-25s %-6s %-7s %-30s %-12s %-9s \n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
-
-    fprintf(fp,"%s\t%s\t%s\t%s\t%s\t%s\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+    //fprintf(fp,"%s\t%s\t%s\t%s\t%s\t%s\n", movie->title, movie->year, movie->runningTime, movie->genres, movie->date, movie->type);
     fclose(fp);
     //printf("\nTitle\t\t\tYear\tRuntime\tGenres\tDate\tType\t\n");
     //for (int i = 0; i < 10; i++){
@@ -91,8 +104,8 @@ void writeUserLog(Movie* movie, char *username){
     //}
 }
 
-void printLine(Movie *movie){
-    printf("%-25s\t%-6s\t%-7s\t%-30s\t%-12s\t%-9s\t\n", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date, movie->type);
+void printLine(Node *movie){
+    printf("%-25s\t%-6s\t%-7s\t%-30s\t%-12s\t%-9s\t\n", movie->title, movie->year, movie->runningTime, movie->genres, movie->date, movie->type);
 }
 
 
