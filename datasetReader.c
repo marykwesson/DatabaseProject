@@ -1,5 +1,6 @@
 #include "datasetReader.h"
 
+//A utiltiy function to remove a substring
 char *strremove(char *str, const char *sub) {
     size_t len = strlen(sub);
     if (len > 0) {
@@ -11,27 +12,18 @@ char *strremove(char *str, const char *sub) {
     return str;
 }
 
-char *strlwr(char *str)
-{
+//https://stackoverflow.com/questions/23618316/undefined-reference-to-strlwr
+//Implementation of non-standard function to write a string to lowercase
+char *strlwr(char *str){
     unsigned char *p = (unsigned char *)str;
-
     while (*p) {
         *p = tolower((unsigned char)*p);
         p++;
     }
-
     return str;
 }
 
-char *strlower(char *str){
-    char *tempstr = str;
-    while(*tempstr){
-        *tempstr = (char) tolower(*tempstr);
-        tempstr++;
-    }
-    return str;
-}
-
+//Function to get the id number from the titleID
 int getIDNumber(char *titleId){
     int i = 2;
     int j = 9;
@@ -44,39 +36,25 @@ int getIDNumber(char *titleId){
     return IDNumber;
 }
 
+//Function to remove english articles
 void articleChecker(char *str){
     const char *article[3];
     article[0] = "the ";
     article[1] = "a ";
     article[2] = "an ";
-    //article[3] = "the ";
-    //article[4] = "a ";
-    //article[5] = "an ";
-    //article[6] = "El ";
     for(int i = 0; i < 3; i++){
         strremove(str, article[i]);
     }
 }
 
+//Function to convert a string to lowercase with no articles
 char *cleanString(char *original){
-    //printf("Made it into clean string");
-    //char *new = malloc(strlen(original) +1);
-    //strcpy(new, original);
     strlwr(original);
     articleChecker(original);
-    //new = strlower(new);
     return original;
 }
 
-void cleanInput(char *original){
-    //printf("Made it into clean string");
-    //char *new = malloc(strlen(original) +1);
-    //strcpy(new, original);
-    articleChecker(original);
-    strlwr(original);
-    //new = strlower(new);
-}
-
+//Function for read the lookup dataset into memory
 Node *fileReader(char *filename){
     FILE *fp;
     char line[400];
@@ -91,16 +69,16 @@ Node *fileReader(char *filename){
     char *key;
     bool first = true;
     int IDNumber = 0;
-    char delim[] = {"\t"};//parse using only newline and double quote
+    char delim[] = {"\t"};
     char *tok;
 
     fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Could not open file %s", filename);
-        return 0;
+        return NULL;
     }
 
-    fgets(line, 300, fp);       //gets file header
+    fgets(line, 300, fp);               //gets file header
     Node *root = NULL;
 
     while(fgets(line, 400, fp) != 0) {
@@ -121,7 +99,6 @@ Node *fileReader(char *filename){
         if (tok) genres = tok;
         genres[strcspn(genres, "\n")] = 0;
 
-        //if (strcmp(type, "movie") == 0) {
             char* newTitle = malloc(strlen(title));
             strncpy(newTitle,title, strlen(title));
             key = cleanString(title);
@@ -133,17 +110,15 @@ Node *fileReader(char *filename){
             else{
                 insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
             }
-        //}
     }
-    //free(line);
 
     fclose(fp);
     return root;
 }
 
-
+//Function to read the User Log file into Memory
 Node* readLogIntoTree(Node* userTree, char *username) {
-    char *filename = (char *) malloc(1 + strlen(username) + strlen(".log"));
+    char *filename = (char *) malloc(25);
     strcpy(filename, username);
     strcat(filename, ".log");
     FILE *fp;
@@ -163,29 +138,28 @@ Node* readLogIntoTree(Node* userTree, char *username) {
     fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Could not open file %s", filename);
-        //return 0;
+        return NULL;
     }
     fgets(line, 300, fp);
-    //Node *root = NULL;
 
     while (fgets(line, 300, fp) != 0) {
-        tok = strtok(line, delim);      //Gets  TitleId token
+        tok = strtok(line, delim);      //Gets  titl token
         if (tok) title = tok;
-        tok = strtok(NULL, delim);      //Gets Type token
+        tok = strtok(NULL, delim);      //Gets year token
         if (tok) year = tok;
-        tok = strtok(NULL, delim);      //Gets Title token
+        tok = strtok(NULL, delim);      //Gets runtime token
         if (tok) runtime = tok;
-        tok = strtok(NULL, delim);      //Get Year token
+        tok = strtok(NULL, delim);      //Get genres token
         if (tok) genres = tok;
-        tok = strtok(NULL, delim);      //Consume and ignore
+        tok = strtok(NULL, delim);      //Get date token
         if (tok) date = tok;
-        tok = strtok(NULL, delim);      //get GenresToken
+        tok = strtok(NULL, delim);      //Get type token
         if (tok) type = tok;
         type[strcspn(type, "\n")] = 0;
 
         char *newTitle = malloc(strlen(title));
         strncpy(newTitle, title, strlen(title));
-        key = cleanString(title);
+        key = cleanString(title);       
         IDNumber = getIDNumber(titleId);
         if (first) {
             userTree = insert(userTree, key, IDNumber, newTitle, genres, runtime, year, date, type);

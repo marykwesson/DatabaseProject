@@ -19,6 +19,5 @@ extern void deleteUserLog(char *username);
 extern void writeUserLog(Node* movie, char *username);
 extern void printLine(Node *movie);
 extern void printUserLog(Node *node);
-//extern Node* readLogIntoTree(char *username);
 
 #endif
