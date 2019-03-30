@@ -20,7 +20,7 @@ void updateCase();
 Node *searchMovie();
 //bool addMovie();
 Node* deleteMovie();
-bool updateMovie();
+Node* updateMovie();
 
 int main(void){
     printf("Loading lookup file...\n");
@@ -214,7 +214,7 @@ void updateCase(Node *lookupTable){
             else if (userChoice == 'D' || userChoice == 'd'){
                 printf("The User chose delete\n");
                 if(userLogTree != NULL){
-                    deleteMovie(userLogTree);
+                    userLogTree = deleteMovie(userLogTree);
                 }
                 else{
                     printf("The user log is empty.\n");
@@ -222,7 +222,7 @@ void updateCase(Node *lookupTable){
             }
             else if (userChoice == 'U' || userChoice == 'u'){
                 printf("The User chose update\n");
-                //update movie function
+                userLogTree = updateMovie(userLogTree);
             }
             else if (userChoice == 'E' || userChoice == 'e'){
                 finished = true;
@@ -318,5 +318,129 @@ Node *deleteMovie(Node *userLog){
     else{
         printf("That movie does not exist in the user log\n");
     }
+    return userLog;
+}
+
+Node *updateMovie(Node *userLog){
+    bool finished = false;
+    char userChoice;
+    char ynchoice;
+    char typechoice;
+    Node *searchTerm = searchMovie(userLog);
+    printf("Enter D to update the date, T to update the type, or E to exit.\n");
+    scanf(" %c", &userChoice);
+    while ((getchar()) != '\n');
+    do{
+        if (searchTerm != NULL){
+            if (userChoice == 'D' || userChoice == 'd'){
+                int dd,mm,yy;
+                do{
+                    printf("Enter date (DD/MM/YYYY format): ");
+                    scanf("%2d%*c%2d%*c%4d",&dd,&mm,&yy);
+                    while ((getchar()) != '\n');
+                    char* date = malloc(11);
+                    sprintf(date, "%d/%d/%d", dd,mm,yy);
+                    //verify that the date is accurate
+                    changeDate(searchTerm, date);
+                    printf("Is %s the correct date? y/n (Enter E to exit)\n", date);
+                    scanf(" %c", &ynchoice);
+                    while ((getchar()) != '\n');
+                    if (ynchoice == 'Y' || ynchoice == 'y'){
+                        changeDate(searchTerm, date);
+                        userLog = deleteNode(userLog, searchTerm->key);
+                        if (userLog == NULL){
+                            userLog = insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        else{
+                            insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        finished = true;
+                    }
+                    else if (ynchoice == 'N' || ynchoice == 'n'){
+                        //do nothing but don't exit
+                    }
+                    else if (ynchoice == 'E' || ynchoice == 'e'){
+                        finished = true;
+                    }
+                    else{
+                        printf("Incorrect Input\n");
+                        finished = false;
+                    }
+                }while(!finished);
+            }
+            else if (userChoice == 'T' || userChoice == 't'){
+                do{
+                    printf("Enter B for blu-ray, D for DVD and G for digital (Enter E to exit).\n");
+                    scanf(" %c", &typechoice);
+                    while ((getchar()) != '\n');
+                    if (typechoice == 'B' || typechoice == 'b'){
+                        changeType(searchTerm, "Blu-ray");
+                        userLog = deleteNode(userLog, searchTerm->key);
+                        if (userLog == NULL){
+                            userLog = insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        else{
+                            insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        finished = true;
+                    }
+                    else if (typechoice == 'D' || typechoice == 'd'){
+                        changeType(searchTerm, "DVD");
+                        userLog = deleteNode(userLog, searchTerm->key);
+                        if (userLog == NULL){
+                            userLog = insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        else{
+                            insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        finished = true;
+                    }
+                    else if (typechoice == 'G' || typechoice == 'g'){
+                        changeType(searchTerm, "Digital");
+                        userLog = deleteNode(userLog, searchTerm->key);
+                        if (userLog == NULL){
+                            userLog = insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        else{
+                            insert(userLog, searchTerm->key, searchTerm->id, 
+                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
+                                searchTerm->year, searchTerm->date, searchTerm->type);
+                        }
+                        finished = true;
+                    }
+                    else if (typechoice == 'E' || typechoice == 'e'){
+                        finished = true;
+                    }
+                    else{
+                        finished = false;
+                    }
+
+                }while(!finished);
+            }
+            else if (userChoice == 'E' || userChoice == 'e'){
+                finished = true;
+            }
+            else{
+                finished = false;
+            }
+        }       
+        else{
+            printf("That movie does not exist in the user log\n"); 
+        }
+    }while(!finished); 
     return userLog;
 }

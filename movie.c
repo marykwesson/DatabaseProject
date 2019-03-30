@@ -49,7 +49,7 @@ void printMovieSingleLine(Movie *movie){
     printf("\n%s\t%s\t%s\t%s\t%s", movie->primaryTitle, movie->year, movie->runtime, movie->genres, movie->date);
 }
 
-void changeType(Movie *movie, char *newType){
+/*void changeType(Movie *movie, char *newType){
     movie->type = malloc(strlen(newType) +1);
     strcpy(movie->type, newType);
 }
@@ -57,7 +57,7 @@ void changeType(Movie *movie, char *newType){
 void changeDate(Movie *movie, char *newDate){
     movie->date = malloc(strlen(newDate) +1);
     strcpy(movie->date, newDate);
-}
+}*/
 
 char *getDate(){
     char buff[11];

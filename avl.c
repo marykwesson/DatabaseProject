@@ -389,3 +389,12 @@ int getCount(Node *root) {
     }
 }
 
+void changeType(Node *movie, char *newType){
+    movie->type = malloc(strlen(newType) +1);
+    strcpy(movie->type, newType);
+}
+
+void changeDate(Node *movie, char *newDate){
+    movie->date = malloc(strlen(newDate) +1);
+    strcpy(movie->date, newDate);
+}

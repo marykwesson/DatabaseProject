@@ -50,5 +50,7 @@ int getCount(Node *tree);
 extern Node* minimumValueNode(Node* node);
 extern Node *deleteNode(Node* root, char *key);
 //extern bool searchMovie(Node *lookupTable);
+extern void changeType(Node *movie, char *newType);
+extern void changeDate(Node *movie, char *newDate);
 
 #endif

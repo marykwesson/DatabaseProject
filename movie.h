@@ -27,8 +27,8 @@ extern Movie *writeMovie(Movie *newMovie, Movie *oldMovie);
 extern Movie *newBlankMovie();
 extern void printMovie(Movie *movie);
 extern void printMovieSingleLine(Movie *movie);
-extern void changeType(Movie *movie, char *type);
-extern void changeDate(Movie *movie, char *date);
+//extern void changeType(Movie *movie, char *type);
+//extern void changeDate(Movie *movie, char *date);
 extern char *getDate();
 
 
