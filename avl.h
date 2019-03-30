@@ -47,6 +47,8 @@ extern void printPreorder(Node* node);
 extern int putInArray(Node *node, Node *array[], int index);
 extern int getLeafCount(Node* node);
 int getCount(Node *tree);
+extern Node* minimumValueNode(Node* node);
+extern Node *deleteNode(Node* root, char *key);
 //extern bool searchMovie(Node *lookupTable);
 
 #endif

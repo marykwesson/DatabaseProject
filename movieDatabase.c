@@ -18,8 +18,8 @@ void readCase();
 void deleteCase();
 void updateCase();
 Node *searchMovie();
-bool addMovie();
-bool deleteMovie();
+//bool addMovie();
+Node* deleteMovie();
 bool updateMovie();
 
 int main(void){
@@ -186,7 +186,7 @@ void updateCase(Node *lookupTable){
 
     if (exists(userName) == 1) {
         Node * userLogTree = NULL;
-        readLogIntoTree(userLogTree, userName);
+        userLogTree = readLogIntoTree(userLogTree, userName);
         do{
             printf("Enter A to add movie, D to delete movie, U to update movie, or E to exit to start menu\n");
             scanf(" %c", &userChoice);
@@ -212,11 +212,16 @@ void updateCase(Node *lookupTable){
                 }
             }
             else if (userChoice == 'D' || userChoice == 'd'){
-                printf("The User chose delete");
-                //delete movie function
+                printf("The User chose delete\n");
+                if(userLogTree != NULL){
+                    deleteMovie(userLogTree);
+                }
+                else{
+                    printf("The user log is empty.\n");
+                }
             }
             else if (userChoice == 'U' || userChoice == 'u'){
-                printf("The User chose update");
+                printf("The User chose update\n");
                 //update movie function
             }
             else if (userChoice == 'E' || userChoice == 'e'){
@@ -226,7 +231,9 @@ void updateCase(Node *lookupTable){
                 printf("Invalid Input");
             }
         }while (!finished);
+        printf("Writing to the user file\n");
         writeUserLog(userLogTree, userName);
+        free(userLogTree);
         //return true;
     } else {
         printf("This username doesn't exists.\n");
@@ -302,3 +309,14 @@ Node *searchMovie(Node *lookupTable) {
     return NULL;
 }
 
+Node *deleteMovie(Node *userLog){
+    //printInorder(userLog);
+    Node* searchTerm = searchMovie(userLog);
+    if (searchTerm != NULL){
+        userLog = deleteNode(userLog, searchTerm->key);
+    }
+    else{
+        printf("That movie does not exist in the user log\n");
+    }
+    return userLog;
+}

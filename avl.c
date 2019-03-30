@@ -270,6 +270,62 @@ Node *searchTree(Node *root, char *title) {
     return NULL;
 }
 
+Node* minimumValueNode(Node* node){
+    Node *current = node;
+    while (current->left != NULL){
+        current = current->left;
+    }
+    return current;
+}
+
+Node *deleteNode(Node* root, char *key){
+    if(root == NULL){
+        return root;
+    }
+    if(strncmp(key, root->key, strlen(key)) < 0){
+        root->left = deleteNode(root->left, key);
+    }
+    else if(strncmp(key, root->key, strlen(key)) > 0){
+        root->right = deleteNode(root->right, key);
+    }
+    else{
+        if (root->left == NULL || root->right == NULL){
+            Node *temp = root->left ? root->left : root->right;
+            if (temp == NULL){
+                temp = root;
+                root = NULL;
+            }
+            else{
+                *root = *temp;
+                free(temp);
+            }
+        }
+        else{
+            Node *temp = minimumValueNode(root->right);
+            root->key = temp->key;
+            root->right = deleteNode(root->right, temp->key);
+        }
+    }
+    if (root == NULL){
+        return root;
+    }
+    root->height = 1 + maxHeight(height(root->left),height(root->right));
+    int balance = getBalance(root);
+    if (balance > 1 && getBalance(root->left) >= 0){
+        return LL(root);
+    }
+    if (balance > 1 && getBalance(root->left) < 0){
+        return LR(root);
+    }
+    if (balance < -1 && getBalance(root->left) <= 0){
+        return RR(root);
+    }
+    if (balance < -1 && getBalance(root->left) > 0){
+        return RL(root);
+    }
+    return root;
+}
+
 //A recursive function to print an inorder traversal of a tree
 void printInorder(Node *node) {
     if (node == NULL) {
