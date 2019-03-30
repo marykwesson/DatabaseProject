@@ -389,7 +389,17 @@ int getCount(Node *root) {
     }
 }
 
-void changeType(Node *movie, char *newType){
+void changeType(Node *movie, char typechoice){
+    char *newType;
+    if (typechoice == 'B' || typechoice == 'b'){
+        newType = "Blu-ray";
+    }
+    if (typechoice == 'D' || typechoice == 'd'){
+        newType = "DVD";
+    }
+    if (typechoice == 'G' || typechoice == 'g'){
+        newType = "Digital";
+    }
     movie->type = malloc(strlen(newType) +1);
     strcpy(movie->type, newType);
 }
@@ -397,4 +407,13 @@ void changeType(Node *movie, char *newType){
 void changeDate(Node *movie, char *newDate){
     movie->date = malloc(strlen(newDate) +1);
     strcpy(movie->date, newDate);
+}
+
+char *getDate(){
+    char buff[11];
+    char *currentDate = malloc(sizeof(buff));
+    time_t result = time(NULL);
+    strftime(buff, sizeof(buff), "%m/%d/%Y", localtime(&result));
+    //puts(buff);
+    return strcpy(currentDate, buff);
 }

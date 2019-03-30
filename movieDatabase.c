@@ -1,6 +1,23 @@
 //
 // Created by bamam on 3/13/2019.
 //
+#define RESET "\033[0m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define BOLDBLACK "\033[1m\033[30m"
+
+#define BACKRED "\033[41m"
+#define BACKGREEN "\033[42m"
+#define BACKYELLOW "\033[43m"
+#define BACKBLUE "\033[44m"
+#define BACKMAGENTA "\033[45m"
+#define BACKCYAN "\033[46m"
+#define BACKWHITE "\033[47m"
 
 #include<stdio.h>
 #include <stdlib.h>
@@ -17,129 +34,53 @@ void createCase();
 void readCase();
 void deleteCase();
 void updateCase();
-Node *searchMovie();
+Node *searchMovie(Node* root);
 //bool addMovie();
-Node* deleteMovie();
-Node* updateMovie();
+Node* deleteMovie(Node* root);
+Node* updateMovie(Node* root);
 
 int main(void){
-    printf("Loading lookup file...\n");
-    //clock_t bt,st;
-    //bt = clock();
+    printf(BOLDBLACK "Loading lookup file...\n" RESET);
+
     Node *lookupTree = fileReader("movie_records");
-    //Node *searchTree = fileReader("movie_records");
-    //bt = clock() - bt;
-    //st = clock();
-    //printInorder(lookupTree);
-    //char line[256];   //1
-    //char *line = (char*)malloc(256);
-    /*char* movieTitle;  //2
-    printf("Enter a movie\n");//3
-    //gets(movieTitle);
-    //fgets(movieTitle, 20, stdin);
-    fgets(line, sizeof(line), stdin);//4
-    char *tok = strtok(line, "\n"); //5     //Gets  TitleId token
-    if (tok) movieTitle = tok;//6
-    //char *movieTitle2;
-    //movieTitle2 = movieTitle;
-    printf("The movie title is %s", movieTitle);//7
-    //free(movieTitle);
-    //char* newMovieTitle = &movieTitle[0];
-    //scanf("%[^\n]%*c", movieTitle);
-    //scanf(" %s", movieTitle);
-    //cleanInput(fgets(movieTitle, sizeof(movieTitle), stdin));
-    //while ((getchar()) != '\n');
-    //char *searchTerm = malloc(strlen(movieTitle + 1));
-    char *searchTerm = cleanString(movieTitle);//8
 
-    //free(movieTitle);
-    //printf("You entered: %s", searchTerm);
-    //char *searchTerm = cleanString("Big apple");
-    //char* searchTerm2 = searchTerm;
-    Node* resultTree = NULL;//9
-    //resultTree = searchResults(lookupTree, searchTerm, resultTree);
-    //printf("You entered: %s", cleanString(movieTitle));
-    resultTree = searchResults(lookupTree, searchTerm , resultTree);
-    //printf("Temp is: %d", temp);
-    if(resultTree == NULL){//10
-        printf("No match was found\n");//11
-    }//12
-    else {//13
-        printInorder(resultTree);//14
-    }*/
-    //st = clock() - st;
-
-    //double build_time = ((double)bt)/CLOCKS_PER_SEC; // in seconds
-    //double search_time = ((double)st)/CLOCKS_PER_SEC; // in seconds
-
-    //printf("Loaded %d movies\n", getLeafCount(searchTree));
-
-    //printf("Lookup file was successfully loaded.\n\n");
     printf("%d movies were loaded\n", getCount(lookupTree));
-    //printf("Loaded %d movies\n", getCount(searchTree));
-    //printf("took %f seconds to build tree \n", build_time);
-    //printf("took %f seconds to search tree \n", search_time);
-
-    //createUserLog("MaryK");
-    //readUserLog("MaryK");
 
     char userActivity;
     bool validUserActivity = false;
     do{
+        printf(BACKWHITE BLACK "MAIN MENU" RESET);
+        printf("\n");
         printf("Enter C to create a new user file, R to display a user file, "
                "U to update a user file, and D to delete a user file, and E to exit\n");
         scanf(" %c", &userActivity);
         while ((getchar()) != '\n');
         if (userActivity == 'C' || userActivity == 'c'){
-            printf("The user chose create\n");
-            //bool complete = createCase();
+            printf(BACKGREEN "Create a New User Log" RESET);
+            printf("\n");
             createCase();
-            /*if (complete == true){
-                //validUserActivity = true;
-            }
-            else {
-                printf("Redirecting to Start Menu\n");
-            }*/
         }
         else if (userActivity == 'R' || userActivity == 'r'){
-            printf("The user chose read\n");
-            //bool complete = readCase();
+            printf(BACKMAGENTA "Read/Print a User Log" RESET);
+            printf("\n");
             readCase();
-            /*if (complete == true){
-                //validUserActivity = true;
-            }
-            else {
-                printf("Redirecting to Start Menu\n");
-            }*/
         }
         else if (userActivity == 'U' || userActivity == 'u'){
-            printf("The user chose update\n");
-            //bool complete = updateCase();
+            printf(BACKBLUE "Update a User Log" RESET);
+            printf("\n");
             updateCase(lookupTree);
-            /*if (complete == true){
-                //validUserActivity = true;
-            }
-            else {
-                printf("Redirecting to Start Menu\n");
-            }*/
         }
         else if (userActivity == 'D' || userActivity == 'd'){
-            printf("The user chose delete\n");
-            //bool complete = deleteCase();
+            printf(BACKRED "Delete a User Log" RESET);
+            printf("\n");
             deleteCase();
-            /*if (complete == true){
-                validUserActivity = true;
-            }
-            else {
-                printf("Redirecting to Start Menu\n");
-            }*/
         }
         else if (userActivity == 'E' || userActivity == 'e'){
             validUserActivity = false;
             return 0;
         }
         else{
-            printf("The value you entered was invalid. Please try again.\n");
+            printf(RED "The value you entered was invalid. Please try again.\n" RESET);
         }
     }while (!validUserActivity);
 
@@ -153,11 +94,11 @@ void createCase(){
     scanf(" %15s", userName);
     while ((getchar()) != '\n');
     if (exists(userName) != 0) {
-        printf("This username already exists\n");
+        printf(RED "This username already exists\n" RESET);
         //return false;
     } else {
         createUserLog(userName);
-        printf("%s.log was created\n", userName);
+        printf(GREEN "%s.log was created\n" RESET, userName);
         //return true;
     }
 }
@@ -192,10 +133,22 @@ void updateCase(Node *lookupTable){
             scanf(" %c", &userChoice);
             while ((getchar()) != '\n');
             if (userChoice == 'A' || userChoice == 'a'){
+                char typechoice;
                 printf("The User chose add\n");
                 Node* searchTest = searchMovie(lookupTable);
                 if (searchTest != NULL && searchTest->id != 99){
                     printf("You selected\n%s (%s)\n", searchTest->title, searchTest->year);
+                    changeDate(searchTest, getDate());
+                    printf("Enter B for blu-ray, D for DVD and G for digital.\n");
+                    scanf(" %c", &typechoice);
+                    while ((getchar()) != '\n');
+                    if (typechoice == 'B' || typechoice == 'b' || typechoice == 'D' || typechoice == 'd' || typechoice == 'G' || typechoice == 'g'){
+                        changeType(searchTest, typechoice);
+                    }
+                    else{
+                        printf("You entered an invalid value. The default type of DVD will be used. It can be changed by updateing the movie\n");
+                        changeType(searchTest, 'D');
+                    }
                     if (userLogTree == NULL){
                         userLogTree = insert(userLogTree, searchTest->key, searchTest->id, 
                             searchTest->title, searchTest->genres, searchTest->runningTime, searchTest->year, searchTest->date, searchTest->type);
@@ -204,8 +157,6 @@ void updateCase(Node *lookupTable){
                         insert(userLogTree, searchTest->key, searchTest->id, 
                             searchTest->title, searchTest->genres, searchTest->runningTime, searchTest->year, searchTest->date, searchTest->type);
                     }
-                    //printLine(searchTest);
-                    //writeUserLog(searchTest, userName);
                 }
                 else{
                     finished = true;
@@ -224,6 +175,10 @@ void updateCase(Node *lookupTable){
                 printf("The User chose update\n");
                 userLogTree = updateMovie(userLogTree);
             }
+            else if (userChoice == 'R' || userChoice == 'r'){
+                printf("The User chose retreive\n");
+                //userLogTree = retreiveMovie(userLogTree);
+            }
             else if (userChoice == 'E' || userChoice == 'e'){
                 finished = true;
             }
@@ -234,24 +189,20 @@ void updateCase(Node *lookupTable){
         printf("Writing to the user file\n");
         writeUserLog(userLogTree, userName);
         free(userLogTree);
-        //return true;
     } else {
         printf("This username doesn't exists.\n");
-        //return false;
     }
 }
 
 void deleteCase(){
     char userName[15];
-    printf("Enter the users name (There is a 15 character limit)\n");
+    printf(RESET "Enter the users name (There is a 15 character limit)\n" RESET);
     scanf(" %15s", userName);
     while ((getchar()) != '\n');
     if (exists(userName) == 1) {
         deleteUserLog(userName);
-        //return true;
     } else {
         printf("This username doesn't exists.\n");
-        //return false;
     }
 }
 
@@ -331,9 +282,12 @@ Node *updateMovie(Node *userLog){
     scanf(" %c", &userChoice);
     while ((getchar()) != '\n');
     do{
+        //if the search term exists let the user update stuff
         if (searchTerm != NULL){
+            //Update date
             if (userChoice == 'D' || userChoice == 'd'){
                 int dd,mm,yy;
+                //Start of date do-while loop
                 do{
                     printf("Enter date (DD/MM/YYYY format): ");
                     scanf("%2d%*c%2d%*c%4d",&dd,&mm,&yy);
@@ -370,16 +324,19 @@ Node *updateMovie(Node *userLog){
                         printf("Incorrect Input\n");
                         finished = false;
                     }
+                //end of date do while loop
                 }while(!finished);
-            }
+            }//end of update date
+            //update type
             else if (userChoice == 'T' || userChoice == 't'){
+                //start of type do-while loop
                 do{
                     printf("Enter B for blu-ray, D for DVD and G for digital (Enter E to exit).\n");
                     scanf(" %c", &typechoice);
                     while ((getchar()) != '\n');
-                    if (typechoice == 'B' || typechoice == 'b'){
-                        changeType(searchTerm, "Blu-ray");
-                        userLog = deleteNode(userLog, searchTerm->key);
+                    //if it a correct choice update it
+                    if (typechoice == 'B' || typechoice == 'b' || typechoice == 'D' || typechoice == 'd' || typechoice == 'G' || typechoice == 'g'){
+                        changeType(searchTerm, typechoice);
                         if (userLog == NULL){
                             userLog = insert(userLog, searchTerm->key, searchTerm->id, 
                                 searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
@@ -392,52 +349,27 @@ Node *updateMovie(Node *userLog){
                         }
                         finished = true;
                     }
-                    else if (typechoice == 'D' || typechoice == 'd'){
-                        changeType(searchTerm, "DVD");
-                        userLog = deleteNode(userLog, searchTerm->key);
-                        if (userLog == NULL){
-                            userLog = insert(userLog, searchTerm->key, searchTerm->id, 
-                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
-                                searchTerm->year, searchTerm->date, searchTerm->type);
-                        }
-                        else{
-                            insert(userLog, searchTerm->key, searchTerm->id, 
-                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
-                                searchTerm->year, searchTerm->date, searchTerm->type);
-                        }
-                        finished = true;
-                    }
-                    else if (typechoice == 'G' || typechoice == 'g'){
-                        changeType(searchTerm, "Digital");
-                        userLog = deleteNode(userLog, searchTerm->key);
-                        if (userLog == NULL){
-                            userLog = insert(userLog, searchTerm->key, searchTerm->id, 
-                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
-                                searchTerm->year, searchTerm->date, searchTerm->type);
-                        }
-                        else{
-                            insert(userLog, searchTerm->key, searchTerm->id, 
-                                searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
-                                searchTerm->year, searchTerm->date, searchTerm->type);
-                        }
-                        finished = true;
-                    }
+                    //If the user wants to exit this loop allow exit
                     else if (typechoice == 'E' || typechoice == 'e'){
                         finished = true;
                     }
+                    //if they insert a wrong answer send them back to the start
                     else{
                         finished = false;
                     }
-
+                //end of type do-while loop
                 }while(!finished);
-            }
+            }//end of update type
+            //If the user wants to exit update
             else if (userChoice == 'E' || userChoice == 'e'){
                 finished = true;
             }
+            //if they insert an invalid value send them back to start
             else{
-                finished = false;
+                printf(RED "Invalid Input. Type will not be changed\n" RESET);
+                finished = true;
             }
-        }       
+        }//end of if the search term exists       
         else{
             printf("That movie does not exist in the user log\n"); 
         }
