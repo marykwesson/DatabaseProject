@@ -43,23 +43,23 @@ int getBalance(Node *node) {
   and sets left and right pointers to NULL*/
 Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year, char *date, char* type) {
     Node *node = (Node *) malloc(sizeof(Node));
-    node->key = malloc(strlen(key) + 1);
+    node->key = malloc(sizeof(char)* (strlen(key) + 1));
     strcpy(node->key, key);
     node->id = id;
-    node->title = malloc(strlen(title) + 1);
+    node->title = malloc(sizeof(char)* (strlen(title) + 1));
     strcpy(node->title, title);
-    node->genres = malloc(strlen(genres) + 1);
+    node->genres = malloc(sizeof(char)* (strlen(genres) + 1));
     strcpy(node->genres, genres);
-    node->runningTime = malloc(strlen(runningTime) + 1);
+    node->runningTime = malloc(sizeof(char)* (strlen(runningTime) + 1));
     strcpy(node->runningTime, runningTime);
-    node->year = malloc(strlen(year) + 1);
+    node->year = malloc(sizeof(char)* (strlen(year) + 1));
     strcpy(node->year, year);
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
-    node->date = malloc(strlen(date) + 1);
+    node->date = malloc(sizeof(char)* (strlen(date) + 1));
     strcpy(node->date, date);
-    node->type = malloc(strlen(type) + 1);
+    node->type = malloc(sizeof(char)* (strlen(type) + 1));
     strcpy(node->type, type);
     return (node);
 }

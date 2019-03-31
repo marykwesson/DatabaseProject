@@ -175,11 +175,12 @@ void updateCase(Node *lookupTable){
                     else{
                         insert(userLogTree, searchTest->key, searchTest->id, 
                             searchTest->title, searchTest->genres, searchTest->runningTime, searchTest->year, searchTest->date, searchTest->type);
-                    }
+                    }                    
                 }
                 else{
                     finished = true;
                 }
+                deleteTree(searchTest);
             }
 
             //Navigates to delete movie function
@@ -257,7 +258,8 @@ Node *searchMovie(Node *lookupTable) {
         int temp = 0;
 
         temp = putInArray(resultTree, resultsArray, index);
-        free(resultTree);
+        //free(resultTree);
+        deleteTree(resultTree);
 
         if (temp == 0) {
             printf("Error");
@@ -300,6 +302,7 @@ Node *deleteMovie(Node *userLog){
     else{
         //printf("That movie does not exist in the user log\n");
     }
+    deleteTree(searchTerm);
     return userLog;
 }
 
@@ -311,6 +314,7 @@ void retrieveMovie(Node *userLog){
     else{
         //printf("That movie does not exist in the user log\n");
     }
+    deleteTree(searchTerm);
 }
 
 Node *updateMovie(Node *userLog){
@@ -319,12 +323,13 @@ Node *updateMovie(Node *userLog){
     char ynchoice;
     char typechoice;
     Node *searchTerm = searchMovie(userLog);
-    printf("Enter D to update the date, T to update the type, or E to exit.\n");
-    scanf(" %c", &userChoice);
-    while ((getchar()) != '\n');
+    
     do{
         //if the search term exists let the user update stuff
         if (searchTerm != NULL){
+            printf("Enter D to update the date, T to update the type, or E to exit.\n");
+            scanf(" %c", &userChoice);
+            while ((getchar()) != '\n');
             //Update date
             if (userChoice == 'D' || userChoice == 'd'){
                 int dd,mm,yy;
@@ -334,7 +339,7 @@ Node *updateMovie(Node *userLog){
                     scanf("%2d%*c%2d%*c%4d",&dd,&mm,&yy);
                     while ((getchar()) != '\n');
                     char* date = malloc(11);
-                    sprintf(date, "%d/%d/%d", dd,mm,yy);
+                    sprintf(date, "%02d/%02d/%04d", dd,mm,yy);
                     //verify that the date is accurate
                     changeDate(searchTerm, date);
                     printf("Is %s the correct date? y/n (Enter E to exit)\n", date);
@@ -378,6 +383,7 @@ Node *updateMovie(Node *userLog){
                     //if it a correct choice update it
                     if (typechoice == 'B' || typechoice == 'b' || typechoice == 'D' || typechoice == 'd' || typechoice == 'G' || typechoice == 'g'){
                         changeType(searchTerm, typechoice);
+                        userLog = deleteNode(userLog, searchTerm->key);
                         if (userLog == NULL){
                             userLog = insert(userLog, searchTerm->key, searchTerm->id, 
                                 searchTerm->title, searchTerm->genres, searchTerm->runningTime, 
@@ -416,5 +422,6 @@ Node *updateMovie(Node *userLog){
             finished = true;
         }
     }while(!finished); 
+    deleteTree(searchTerm);
     return userLog;
 }
