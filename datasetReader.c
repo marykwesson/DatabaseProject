@@ -83,19 +83,19 @@ Node *fileReader(char *filename){
 
     while(fgets(line, 400, fp) != 0) {
         tok = strtok(line, delim);      //Gets  TitleId token
-        if (tok) titleId = tok;
-        //if (tok) strncpy(titleId, tok, strlen(titleId));
+        //if (tok) titleId = tok;
+        if (tok) strncpy(titleId, tok, 10);
         tok = strtok(NULL, delim);      //Gets Type token
         //if (tok) type = tok;
         //if (tok) strncpy(type, tok, strlen(type));
         tok = strtok(NULL, delim);      //Gets Title token
-        if (tok) title = tok;
-        //if (tok) strncpy(title, tok, strlen(tok));
+        //if (tok) title = tok;
+        if (tok) strncpy(title, tok, 256);
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Get Year token
-        if (tok) year = tok;
-        //if (tok) strncpy(year, tok, strlen(tok));
+        //if (tok) year = tok;
+        if (tok) strncpy(year, tok, 5);
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Get Runtime token
         if (tok) runtime = tok;
@@ -105,8 +105,8 @@ Node *fileReader(char *filename){
         //if (tok) strncpy(genres, tok, strlen(tok));
         genres[strcspn(genres, "\n")] = 0;
 
-            char* newTitle = malloc(strlen(title));
-            strncpy(newTitle,title, strlen(title));
+            char* newTitle = malloc(sizeof(char)*256);
+            strncpy(newTitle,title, 256);
             key = cleanString(title);
             IDNumber = getIDNumber(titleId);
             if (first == true){
@@ -116,11 +116,13 @@ Node *fileReader(char *filename){
             else{
                 insert(root, key, IDNumber, newTitle, genres, runtime, year, date, type);
             }
+            free(newTitle);
     }
 
     fclose(fp);
-    //free(titleId);
-    //free(title);
+    free(titleId);
+    free(title);
+
     //free(year);
     //free(runtime);
     //free(genres);
