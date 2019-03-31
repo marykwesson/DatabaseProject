@@ -59,8 +59,8 @@ Node *fileReader(char *filename){
     FILE *fp;
     char line[400];
     char *titleId = malloc(sizeof(char)*10);
-    char *type = malloc(sizeof(char)*10);
-    type = "/0";
+    //char *type = malloc(sizeof(char)*10);
+    char *type = "/0";
     char *title = malloc(sizeof(char)*256);
     char *year = malloc(sizeof(char)*5);
     char *runtime = malloc(sizeof(char)*4);
@@ -83,20 +83,26 @@ Node *fileReader(char *filename){
 
     while(fgets(line, 400, fp) != 0) {
         tok = strtok(line, delim);      //Gets  TitleId token
-        if (tok) titleId = tok;
+        //if (tok) titleId = tok;
+        if (tok) strncpy(titleId, tok, strlen(tok));
         tok = strtok(NULL, delim);      //Gets Type token
-        if (tok) type = tok;
+        //if (tok) type = tok;
+        //if (tok) strncpy(type, tok, strlen(type));
         tok = strtok(NULL, delim);      //Gets Title token
-        if (tok) title = tok;
+        //if (tok) title = tok;
+        if (tok) strncpy(title, tok, strlen(tok));
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Get Year token
         if (tok) year = tok;
+        //if (tok) strncpy(year, tok, strlen(tok));
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Get Runtime token
         if (tok) runtime = tok;
+        //if (tok) strncpy(runtime, tok, strlen(tok));
         tok = strtok(NULL, delim);      //get GenresToken
         if (tok) genres = tok;
+        //if (tok) strncpy(genres, tok, strlen(tok));
         genres[strcspn(genres, "\n")] = 0;
 
             char* newTitle = malloc(strlen(title));
@@ -113,6 +119,11 @@ Node *fileReader(char *filename){
     }
 
     fclose(fp);
+    free(titleId);
+    //free(title);
+    //free(year);
+    //free(runtime);
+    //free(genres);
     return root;
 }
 
