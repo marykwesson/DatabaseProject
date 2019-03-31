@@ -31,6 +31,7 @@ void readUserLog(char *username){
     userTree = readLogIntoTree(userTree, username);
     printf("%-75s %-6s %-7s %-30s %-12s %-9s \n", "Title", "Year", "Runtime", "Genres", "Date", "Type");
     printUserLog(userTree);
+    deleteTree(userTree);
     fclose(fp);
 }
 

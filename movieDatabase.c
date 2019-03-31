@@ -213,7 +213,7 @@ void updateCase(Node *lookupTable){
         }while (!finished);
         printf("Writing to the user file\n");
         writeUserLog(userLogTree, userName);
-        free(userLogTree);
+        deleteTree(userLogTree);
     } else {
         printf("This username doesn't exists.\n");
     }

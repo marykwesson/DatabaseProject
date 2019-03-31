@@ -65,7 +65,7 @@ Node *fileReader(char *filename){
     char *title = malloc(sizeof(char)*256);
     char *year = malloc(sizeof(char)*5);
     char *runtime = malloc(sizeof(char)*4);
-    char *genres = malloc(sizeof(char)*5);
+    char *genres = malloc(sizeof(char)*30);
     char *date = "/0";
     char *key;
     bool first = true;
@@ -99,11 +99,11 @@ Node *fileReader(char *filename){
         if (tok) strncpy(year, tok, 5);
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Get Runtime token
-        if (tok) runtime = tok;
-        //if (tok) strncpy(runtime, tok, strlen(tok));
+        //if (tok) runtime = tok;
+        if (tok) strncpy(runtime, tok, 4);
         tok = strtok(NULL, delim);      //get GenresToken
-        if (tok) genres = tok;
-        //if (tok) strncpy(genres, tok, strlen(tok));
+        //if (tok) genres = tok;
+        if (tok) strncpy(genres, tok, 30);
         genres[strcspn(genres, "\n")] = 0;
 
             char* newTitle = malloc(sizeof(char)*256);
@@ -139,7 +139,7 @@ Node* readLogIntoTree(Node* userTree, char *username) {
     char *title = malloc(sizeof(char)*256);
     char *year = malloc(sizeof(char)*5);
     char *runtime = malloc(sizeof(char)*4);
-    char *genres = malloc(sizeof(char)*5);
+    char *genres = malloc(sizeof(char)*30);
     char *date = malloc(sizeof(char)*11);
     char *type = malloc(sizeof(char)*8);
     char *key;
@@ -158,21 +158,27 @@ Node* readLogIntoTree(Node* userTree, char *username) {
 
     while (fgets(line, 300, fp) != 0) {
         tok = strtok(line, delim);      //Gets  titl token
-        if (tok) title = tok;
+        //if (tok) title = tok;
+        if (tok) strncpy(title, tok, 256);
         tok = strtok(NULL, delim);      //Gets year token
-        if (tok) year = tok;
+        //if (tok) year = tok;
+        if (tok) strncpy(year, tok, 5);
         tok = strtok(NULL, delim);      //Gets runtime token
-        if (tok) runtime = tok;
+        //if (tok) runtime = tok;
+        if (tok) strncpy(runtime, tok, 4);
         tok = strtok(NULL, delim);      //Get genres token
-        if (tok) genres = tok;
+        //if (tok) genres = tok;
+        if (tok) strncpy(genres, tok, 30);
         tok = strtok(NULL, delim);      //Get date token
-        if (tok) date = tok;
+        //if (tok) date = tok;
+        if (tok) strncpy(date, tok, 11);
         tok = strtok(NULL, delim);      //Get type token
-        if (tok) type = tok;
+        //if (tok) type = tok;
+        if (tok) strncpy(type, tok, 8);
         type[strcspn(type, "\n")] = 0;
 
-        char *newTitle = malloc(strlen(title));
-        strncpy(newTitle, title, strlen(title));
+        char *newTitle = malloc(sizeof(char)*256);
+        strncpy(newTitle, title, 256);
         key = cleanString(title);       
         IDNumber = getIDNumber(titleId);
         if (first) {
@@ -181,7 +187,9 @@ Node* readLogIntoTree(Node* userTree, char *username) {
         } else {
             insert(userTree, key, IDNumber, newTitle, genres, runtime, year, date, type);
         }
+        free(newTitle);
     }
     fclose(fp);
+    free(title);
     return userTree;
 }
