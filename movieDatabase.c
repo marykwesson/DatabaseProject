@@ -200,7 +200,7 @@ void updateCase(Node *lookupTable){
 
             //Navigates to the update movie function
             else if (userChoice == 'U' || userChoice == 'u'){
-                printf(BACKWHITEF BLUE"Update a Movie" RESET);
+                printf(BACKWHITEF BLUE "Update a Movie" RESET);
                 printf("\n");
                 userLogTree = updateMovie(userLogTree);
             }

@@ -127,31 +127,31 @@ Node *insert(Node *node, char *key, int id, char *title, char *genres, char *run
         return newNode(key, id, title, genres, runningTime, year, date, type);
     }
 
-    if (strcmp(key, node->key) < 0) {
+    if (strncmp(key, node->key, strlen(key)) < 0) {
         node->left = insert(node->left, key, id, title, genres, runningTime, year, date, type);
-    } else if (strcmp(key, node->key) >= 0) {
+    } else if (strncmp(key, node->key, strlen(key)) >= 0) {
         node->right = insert(node->right, key, id, title, genres, runningTime, year, date, type);
     } else return node;
 
     balance = getBalance(node);
 
     //Left Left Case
-    if (balance > 1 && strcmp(key, node->left->key) < 0) {
+    if (balance > 1 && strncmp(key, node->left->key, strlen(key)) < 0) {
         return LL(node);
     }
 
     //Right Right Case
-    if (balance < -1 && strcmp(key, node->right->key) > 0) {
+    if (balance < -1 && strncmp(key, node->right->key, strlen(key)) > 0) {
         return RR(node);
     }
 
     //Left Right Case
-    if (balance > 1 && strcmp(key, node->left->key) > 0) {
+    if (balance > 1 && strncmp(key, node->left->key, strlen(key)) > 0) {
         return LR(node);
     }
 
     //Right Left Case
-    if (balance < -1 && strcmp(key, node->right->key) < 0) {
+    if (balance < -1 && strncmp(key, node->right->key, strlen(key)) < 0) {
         return RL(node);
     }
     return node;
