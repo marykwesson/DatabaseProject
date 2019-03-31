@@ -1,8 +1,7 @@
 /**
+ *AVL contains the main datastructure used to store the lookup dataset and user catologs in memory
  *
- *
- * Resources:
- * https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+ * Reasoning behind data structure choice is outlined in README.md
  */
 
 #include "avl.h"
@@ -40,7 +39,10 @@ int getBalance(Node *node) {
 }
 
 /*A function that allocates a new node using the given data
-  and sets left and right pointers to NULL*/
+  and sets left and right pointers to NULL
+  This function uses strcpy because I'm never not in control of what I'm inserting.
+  The only time inserts happen is when I am reading from a file. I require a certain 
+  structure for the input file and I control the structure of my user file*/
 Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, char *year, char *date, char* type) {
     Node *node = (Node *) malloc(sizeof(Node));
     node->key = malloc(sizeof(char)* (strlen(key) + 1));
@@ -65,6 +67,7 @@ Node *newNode(char *key, int id, char *title, char *genres, char *runningTime, c
 }
 
 //A function that rotates a given node to the right
+//https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
 Node *rightRotate(Node *y) {
     Node *x = y->left;
     Node *z = x->right;
@@ -79,6 +82,7 @@ Node *rightRotate(Node *y) {
 }
 
 //A function that rotates a given node to the left
+//https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
 Node *leftRotate(Node *x) {
     Node *y = x->right;
     Node *z = y->left;
@@ -282,14 +286,14 @@ Node *deleteNode(Node* root, char *key){
 }
 
 //A recursive function to print an inorder traversal of a tree
-void printInorder(Node *node) {
+/*void printInorder(Node *node) {
     if (node == NULL) {
         return;
     }
     printInorder(node->left);
     printf("%s (%s)\n", node->key, node->year);
     printInorder(node->right);
-}
+}*/
 
 //A function used to print a tree to a file
 void printFileInorder(FILE *fp, Node *movie) {
@@ -302,14 +306,14 @@ void printFileInorder(FILE *fp, Node *movie) {
 }
 
 //A recursive function to print an preorder traversal of a tree
-void printPreorder(Node *node) {
+/*void printPreorder(Node *node) {
     if (node == NULL) {
         return;
     }
     printf("%s (%s)\n", node->key, node->year);
     printPreorder(node->left);
     printPreorder(node->right);
-}
+}*/
 
 //A recursive function used to put a tree into an array
 int putInArray(Node *node, Node *array[], int index) {
@@ -328,14 +332,14 @@ int putInArray(Node *node, Node *array[], int index) {
 }
 
 //A recursive function to get the number of leaves in a tree
-int getLeafCount(Node *node) {
+/*int getLeafCount(Node *node) {
     if (node == NULL)
         return 0;
     if (node->left == NULL && node->right == NULL)
         return 1;
     else
         return getLeafCount(node->left) + getLeafCount(node->right);
-}
+}*/
 
 //A recursive function used to get the number of nodes in a tree
 int getCount(Node *root) {

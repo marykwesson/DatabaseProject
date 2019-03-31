@@ -1,3 +1,10 @@
+/**
+ *The purpose of this file is to read the files into trees so they can be used in the program
+ *
+ *It also contains functions to clean the strings to allow for better searches
+ */
+
+
 #include "datasetReader.h"
 
 //A utiltiy function to remove a substring

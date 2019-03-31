@@ -1,6 +1,6 @@
-//
-// Created by bamam on 3/13/2019.
-//
+/**
+ *This is the main function with the UI
+ */
 
 //Definitiona for Ansi colors in console
 #define RESET "\033[0m"
@@ -154,7 +154,7 @@ void updateCase(Node *lookupTable){
                 char typechoice;
                 printf(BACKWHITEF GREEN"Add a Movie" RESET);
                 printf("\n");
-                Node* searchTest = searchMovie(lookupTable);
+                Node* searchTest = searchMovie(lookupTable);    //searches for the movie in the lookup table
                 if (searchTest != NULL && searchTest->id != 99 && (strncmp(searchTest->key, "/0", strlen("/0")) != 0)){
                     printf("You selected\n%s (%s)\n", searchTest->title, searchTest->year);
                     changeDate(searchTest, getDate());
@@ -226,6 +226,7 @@ void updateCase(Node *lookupTable){
     }
 }
 
+//Function to delete a user log
 void deleteCase(){
     char userName[15];
     printf(RESET "Enter the users name (There is a 15 character limit)\n" RESET);
@@ -238,6 +239,7 @@ void deleteCase(){
     }
 }
 
+//Function to search for a movie, query user to chose the correct movie, return this movie
 Node *searchMovie(Node *lookupTable) {
     char line[256];
     char *movieTitle;
@@ -299,6 +301,7 @@ Node *searchMovie(Node *lookupTable) {
     return NULL;
 }
 
+//Function to delete a movie already in the catolog
 Node *deleteMovie(Node *userLog){
     //printInorder(userLog);
     Node* searchTerm = searchMovie(userLog);
@@ -312,6 +315,7 @@ Node *deleteMovie(Node *userLog){
     return userLog;
 }
 
+//Function to retrieve a movie already in the catolog
 void retrieveMovie(Node *userLog){
     Node* searchTerm = searchMovie(userLog);
     if (searchTerm != NULL){
@@ -323,6 +327,7 @@ void retrieveMovie(Node *userLog){
     deleteTree(searchTerm);
 }
 
+//Function to update a movie already in the catolog
 Node *updateMovie(Node *userLog){
     bool finished = false;
     char userChoice;

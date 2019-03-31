@@ -1,6 +1,6 @@
-//
-// Created by bamam on 3/15/2019.
-//
+/**
+ *The purpose of this file is to handle dealing with any actions taken on a user catolog
+ */
 
 #include "userLogs.h"
 
