@@ -89,6 +89,7 @@ int main(void){
         //Exit the program
         else if (userActivity == 'E' || userActivity == 'e'){
             validUserActivity = false;
+            deleteTree(lookupTree);
             return 0;
         }
 
@@ -97,6 +98,7 @@ int main(void){
         }
 
     }while (!validUserActivity);
+    deleteTree(lookupTree);
     //free(lookupTree);
     return 0;
 }

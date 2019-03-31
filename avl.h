@@ -51,5 +51,5 @@ extern Node *deleteNode(Node* root, char *key);
 extern void changeType(Node *movie, char newType);
 extern void changeDate(Node *movie, char *newDate);
 extern char *getDate();
-
+extern void deleteTree(Node *root);
 #endif
