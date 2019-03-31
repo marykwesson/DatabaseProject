@@ -5,8 +5,9 @@
 //Definitiona for Ansi colors in console
 #define RESET "\033[0m"
 #define BLACK "\033[30m"
-#define RED "\033[31m"
+#define RED "\033[1m\033[31m"
 #define GREEN "\033[32m"
+#define BOLDGREEN "\033[1m\033[32m"
 #define YELLOW "\033[33m"
 #define BLUE "\033[34m"
 #define MAGENTA "\033[35m"
@@ -19,6 +20,7 @@
 #define BACKMAGENTA "\033[45m"
 #define BACKCYAN "\033[46m"
 #define BACKWHITE "\033[47m"
+#define BACKWHITEF "\033[2m\033[47m"
 
 #include<stdio.h>
 #include <stdlib.h>
@@ -51,7 +53,7 @@ int main(void){
 
     //Main Menu
     do{
-        printf(BACKWHITE BLACK "MAIN MENU" RESET);
+        printf(BACKYELLOW BLACK "MAIN MENU" RESET);
         printf("\n");
         printf("Enter C to create a new user file, R to display a user file, "
                "U to update a user file, and D to delete a user file, and E to exit\n");
@@ -126,7 +128,7 @@ void readCase(){
     if (exists(userName) == 1) {
         readUserLog(userName);
     } else {
-        printf("This username doesn't exists.\n");
+        printf(RED "This username doesn't exists.\n" RESET);
     }
 }
 
@@ -150,7 +152,8 @@ void updateCase(Node *lookupTable){
             //Navigates to add movie function
             if (userChoice == 'A' || userChoice == 'a'){
                 char typechoice;
-                printf("Add a Movie\n");
+                printf(BACKWHITEF GREEN"Add a Movie" RESET);
+                printf("\n");
                 Node* searchTest = searchMovie(lookupTable);
                 if (searchTest != NULL && searchTest->id != 99 && (strncmp(searchTest->key, "/0", strlen("/0")) != 0)){
                     printf("You selected\n%s (%s)\n", searchTest->title, searchTest->year);
@@ -163,7 +166,7 @@ void updateCase(Node *lookupTable){
                         changeType(searchTest, typechoice);
                     }
                     else{
-                        printf("You entered an invalid value. The default type of DVD will be used. It can be changed by updateing the movie\n");
+                        printf(RED "You entered an invalid value. The default type of DVD will be used. It can be changed by updateing the movie\n" RESET);
                         changeType(searchTest, 'D');
                     }
 
@@ -185,38 +188,41 @@ void updateCase(Node *lookupTable){
 
             //Navigates to delete movie function
             else if (userChoice == 'D' || userChoice == 'd'){
-                printf("Delete a Movie\n");
+                printf(BACKWHITEF RED "Delete a Movie" RESET);
+                printf("\n");
                 if(userLogTree != NULL){
                     userLogTree = deleteMovie(userLogTree);
                 }
                 else{
-                    printf("The user log is empty.\n");
+                    printf(RED "The user log is empty.\n" RESET);
                 }
             }
 
             //Navigates to the update movie function
             else if (userChoice == 'U' || userChoice == 'u'){
-                printf("Update a Movie\n");
+                printf(BACKWHITEF BLUE"Update a Movie" RESET);
+                printf("\n");
                 userLogTree = updateMovie(userLogTree);
             }
 
             //Navigates to the retrieve movie function
             else if (userChoice == 'R' || userChoice == 'r'){
-                printf("Retrieve a Movie\n");
+                printf(BACKWHITEF MAGENTA"Retrieve a Movie" RESET);
+                printf("\n");
                 retrieveMovie(userLogTree);
             }
             else if (userChoice == 'E' || userChoice == 'e'){
                 finished = true;
             }
             else{
-                printf("Invalid Input");
+                printf(RED "Invalid Input\n" RESET);
             }
         }while (!finished);
-        printf("Writing to the user file\n");
+        //printf("Writing to the user file\n");
         writeUserLog(userLogTree, userName);
         deleteTree(userLogTree);
     } else {
-        printf("This username doesn't exists.\n");
+        printf(RED "This username doesn't exists.\n" RESET);
     }
 }
 
@@ -228,7 +234,7 @@ void deleteCase(){
     if (exists(userName) == 1) {
         deleteUserLog(userName);
     } else {
-        printf("This username doesn't exists.\n");
+        printf(RED "This username doesn't exists.\n" RESET);
     }
 }
 
@@ -246,7 +252,7 @@ Node *searchMovie(Node *lookupTable) {
     Node *resultTree = NULL;
     resultTree = searchResults(lookupTable, searchTerm, resultTree);
     if (resultTree == NULL) {
-        printf("That movie was not found.\n");
+        printf(RED "That movie was not found.\n" RESET);
         return NULL;
     } else {
         Node *resultsArray[10];
@@ -262,7 +268,7 @@ Node *searchMovie(Node *lookupTable) {
         deleteTree(resultTree);
 
         if (temp == 0) {
-            printf("Error");
+            printf(RED "Error\n" RESET);
         }
         for (int j = 0; j < 10; j++) {
             if (resultsArray[j]->id != 99){
@@ -282,11 +288,11 @@ Node *searchMovie(Node *lookupTable) {
                     return resultsArray[index];
                 }
                 else{
-                    printf("You selected a number that was not available. No movie will be added.\n");
+                    printf(RED "You selected a number that was not available. No movie will be added.\n" RESET);
                     return NULL;
                 }
             } else {
-                printf("Invalid Input.\n");
+                printf(RED "Invalid Input.\n" RESET);
             }
         } while (!valid);
     }
@@ -367,7 +373,7 @@ Node *updateMovie(Node *userLog){
                         finished = true;
                     }
                     else{
-                        printf("Incorrect Input\n");
+                        printf(RED "Incorrect Input\n" RESET);
                         finished = false;
                     }
                 //end of date do while loop
@@ -418,7 +424,7 @@ Node *updateMovie(Node *userLog){
             }
         }//end of if the search term exists       
         else{
-            printf("That movie does not exist in the user log\n"); 
+            //printf("That movie does not exist in the user log\n"); 
             finished = true;
         }
     }while(!finished); 
