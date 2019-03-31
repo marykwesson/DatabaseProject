@@ -32,7 +32,8 @@ int getIDNumber(char *titleId){
     for(i = 2, j = 0; i < 9 && j < 7; i++, j++){
         str[j] = titleId[i];
     }
-    IDNumber = atoi(str);
+    IDNumber = (int) strtol(str, (char **)NULL, 10);
+    //IDNumber = atoi(str);
     return IDNumber;
 }
 
