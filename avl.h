@@ -9,7 +9,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include "movie.h"
+#include <time.h>
 
 typedef struct Node{
     char *key;

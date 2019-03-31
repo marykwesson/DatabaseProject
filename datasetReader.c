@@ -58,13 +58,13 @@ char *cleanString(char *original){
 Node *fileReader(char *filename){
     FILE *fp;
     char line[400];
-    char *titleId = malloc(10);
-    char *type = malloc(10);
+    char *titleId = malloc(sizeof(char)*10);
+    char *type = malloc(sizeof(char)*10);
     type = "/0";
-    char *title = malloc(256);
-    char *year = malloc(5);
-    char *runtime = malloc(4);
-    char *genres = malloc(5);
+    char *title = malloc(sizeof(char)*256);
+    char *year = malloc(sizeof(char)*5);
+    char *runtime = malloc(sizeof(char)*4);
+    char *genres = malloc(sizeof(char)*5);
     char *date = "/0";
     char *key;
     bool first = true;
