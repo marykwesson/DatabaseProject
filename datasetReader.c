@@ -122,12 +122,12 @@ Node* readLogIntoTree(Node* userTree, char *username) {
     strcpy(filename, username);
     strcat(filename, ".log");
     FILE *fp;
-    char *title = malloc(256);
-    char *year = malloc(5);
-    char *runtime = malloc(4);
-    char *genres = malloc(5);
-    char *date = malloc(11);
-    char *type = malloc(8);
+    char *title = malloc(sizeof(char)*256);
+    char *year = malloc(sizeof(char)*5);
+    char *runtime = malloc(sizeof(char)*4);
+    char *genres = malloc(sizeof(char)*5);
+    char *date = malloc(sizeof(char)*11);
+    char *type = malloc(sizeof(char)*8);
     char *key;
     bool first = true;
     int IDNumber = 0;

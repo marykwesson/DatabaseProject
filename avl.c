@@ -376,3 +376,20 @@ char *getDate(){
     strftime(buff, sizeof(buff), "%m/%d/%Y", localtime(&result));
     return strcpy(currentDate, buff);
 }
+
+void deleteTree(Node *root){
+    if (root == NULL){
+        return;
+    }
+
+    deleteTree(root->left);
+    deleteTree(root->right);
+    free(root->key);
+    free(root->title);
+    free(root->runningTime);
+    free(root->year);
+    free(root->date);
+    free(root->type);
+    free(root->genres);
+    free(root);
+}
