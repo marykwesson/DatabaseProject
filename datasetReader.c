@@ -83,14 +83,14 @@ Node *fileReader(char *filename){
 
     while(fgets(line, 400, fp) != 0) {
         tok = strtok(line, delim);      //Gets  TitleId token
-        //if (tok) titleId = tok;
-        if (tok) strncpy(titleId, tok, strlen(tok));
+        if (tok) titleId = tok;
+        //if (tok) strncpy(titleId, tok, strlen(titleId));
         tok = strtok(NULL, delim);      //Gets Type token
         //if (tok) type = tok;
         //if (tok) strncpy(type, tok, strlen(type));
         tok = strtok(NULL, delim);      //Gets Title token
-        //if (tok) title = tok;
-        if (tok) strncpy(title, tok, strlen(tok));
+        if (tok) title = tok;
+        //if (tok) strncpy(title, tok, strlen(tok));
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Consume and ignore
         tok = strtok(NULL, delim);      //Get Year token
@@ -119,7 +119,7 @@ Node *fileReader(char *filename){
     }
 
     fclose(fp);
-    free(titleId);
+    //free(titleId);
     //free(title);
     //free(year);
     //free(runtime);
