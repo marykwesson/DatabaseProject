@@ -359,13 +359,13 @@ void changeType(Node *movie, char typechoice){
         newType = "Digital";
     }
     movie->type = malloc(strlen(newType) +1);
-    strcpy(movie->type, newType);
+    strncpy(movie->type, newType, 8);
 }
 
 //A function used to change the date of a node (movie)
 void changeDate(Node *movie, char *newDate){
     movie->date = malloc(strlen(newDate) +1);
-    strcpy(movie->date, newDate);
+    strncpy(movie->date, newDate, 11);
 }
 
 //A function used to get the current date
@@ -374,7 +374,7 @@ char *getDate(){
     char *currentDate = malloc(sizeof(buff));
     time_t result = time(NULL);
     strftime(buff, sizeof(buff), "%m/%d/%Y", localtime(&result));
-    return strcpy(currentDate, buff);
+    return strncpy(currentDate, buff, 11);
 }
 
 void deleteTree(Node *root){

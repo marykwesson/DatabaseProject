@@ -5,8 +5,8 @@
 #include "userLogs.h"
 
 void createUserLog(char *username){
-    char * filename = (char *) malloc(25);;
-    strcpy(filename, username);
+    char * filename = malloc(sizeof(char)*25);;
+    strncpy(filename, username, 15);
     strcat(filename, ".log");
     FILE *fp;
     fp = fopen(filename, "a+");
@@ -18,8 +18,8 @@ void createUserLog(char *username){
 }
 
 void readUserLog(char *username){
-    char * filename = (char *) malloc(25);
-    strcpy(filename, username);
+    char * filename = malloc(sizeof(char)*25);;
+    strncpy(filename, username, 15);
     strcat(filename, ".log");
     FILE *fp;
 
@@ -46,8 +46,8 @@ void printUserLog(Node *node) {
 
 
 void deleteUserLog(char *username){
-    char * filename = (char *) malloc(25);
-    strcpy(filename, username);
+    char * filename = malloc(sizeof(char)*25);;
+    strncpy(filename, username, 15);
     strcat(filename, ".log");
     int status = remove(filename);
     if (status == 0) {
@@ -60,8 +60,8 @@ void deleteUserLog(char *username){
 
 int exists(char *username) {
     FILE *file;
-    char * filename = (char *) malloc(25);
-    strcpy(filename, username);
+    char * filename = malloc(sizeof(char)*25);;
+    strncpy(filename, username, 15);
     strcat(filename, ".log");
     file = fopen(filename, "r");
     if (file) {
@@ -73,8 +73,8 @@ int exists(char *username) {
 }
 
 void writeUserLog(Node* movie, char *username){
-    char * filename = (char *) malloc(25);
-    strcpy(filename, username);
+    char * filename = malloc(sizeof(char)*25);;
+    strncpy(filename, username, 15);
     strcat(filename, ".log");
     FILE *fp;
     fp = fopen(filename, "w");

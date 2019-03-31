@@ -132,8 +132,8 @@ Node *fileReader(char *filename){
 
 //Function to read the User Log file into Memory
 Node* readLogIntoTree(Node* userTree, char *username) {
-    char *filename = (char *) malloc(25);
-    strcpy(filename, username);
+    char * filename = malloc(sizeof(char)*25);;
+    strncpy(filename, username, 15);
     strcat(filename, ".log");
     FILE *fp;
     char *title = malloc(sizeof(char)*256);
